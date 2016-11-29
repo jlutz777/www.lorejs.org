@@ -1,23 +1,3 @@
----
-layout: quickstart
-permalink: /quickstart/setup/step-4/
----
-
-{% capture markdown %}
-
-# Step 4: Boot the Mock API Server
-To emulate a real application, this quickstart will be using [json-server](https://github.com/typicode/json-server)
-to provide a mock API.
-
-New Lore projects already include `json-server` by default. This is due to the projects ease of use, excellent feature
-support (such as pagination, search, and relationship expansion) and overall ability to help bootstrap new projects.
-
-### Add Mock Data
-This quickstart requires two API endpoints; one to retrieve `tweets` and one to retrieve `users`. We're going to add
-some mock data to `json-server` so we have something to visualize. At the root of your project is a `db.json` file.
-Parste this data into that file.
-
-```json
 {
   "users": [
     {
@@ -66,121 +46,75 @@ Parste this data into that file.
     },
     {
       "id": 2,
-      "userId": 2,
+      "user": 2,
       "text": "What ARE you two doing? I thought you said something about a nice little slideshow?",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 3,
-      "userId": 3,
+      "user": 3,
       "text": "Ma'am, you're mistaken, I'm not a pet, I'm a Knight and master swordsman.",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 4,
-      "userId": 4,
+      "user": 4,
       "text": "Nothing can beat science!",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 5,
-      "userId": 5,
+      "user": 5,
       "text": "I never imagined that we would settle our score in this dusty old era. Come, let us finish this charade!",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 6,
-      "userId": 6,
+      "user": 6,
       "text": "Crono!! We can't keep sponging off my dad! Go and get a job!!",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 7,
-      "userId": 7,
+      "user": 7,
       "text": "Something is written in archaic script. I will translate... R...o...i...h...c...l...e...m? Roihclem? System error! I reversed it! It says \"Melchior!\".",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 8,
-      "userId": 1,
+      "user": 1,
       "text": "Ayla's word! \"La\" mean fire. \"Vos\" mean big.",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 9,
-      "userId": 3,
+      "user": 3,
       "text": "Mine name is Glenn! Cyrus' hopes and dreams…and now the Masamune, these will now become my burden! forthwith I will slay Magus and restore honor!",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 10,
-      "userId": 4,
+      "user": 4,
       "text": "Machines aren't capable of evil. Humans make them that way.",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 11,
-      "userId": 5,
+      "user": 5,
       "text": "If history is to change, let it change! If the world is to be destroyed, so be it! If my fate is to be destroyed... I must simply laugh!!",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 12,
-      "userId": 6,
+      "user": 6,
       "text": "Enough with the false modesty! You have a real gift! I would trade my royal ancestry for your genius in a heartbeat!",
       "createdAt": "2016-11-26T04:03:25.546Z"
     },
     {
       "id": 13,
-      "userId": 7,
+      "user": 7,
       "text": "Name? Ah, my serial number. It is R66-Y.",
       "createdAt": "2016-11-26T04:03:25.546Z"
     }
   ]
 }
-```
-
-### Start the Mock Server
-Next start the mock server by running this command:
-
-```sh
-$ npm run server
-```
-
-You should then see output that looks like this:
-
-```sh
-
-  \{^_^}/ hi!
-
-  Loading db.json
-  Done
-
-  Resources
-  http://localhost:1337/users
-  http://localhost:1337/tweets
-
-  Home
-  http://localhost:1337
-
-```
-
-This tells us the API server is available at `http://localhost:1337` and we can obtain the list of _users_ from
-`/users` and the list of _tweets_ from `/tweets`
-
-
-
-### Optional: Change the Port
-
-If you want to change the port the API server runs on, you can do that by using an alternate syntax to start the server.
-
-``` sh
-node app.js --port=3001
-```
-
-## Next Steps
-
-Next we're going to begin [laying out the application](../../layout/overview/).
-
-{% endcapture %}
-{{ markdown | markdownify }}
