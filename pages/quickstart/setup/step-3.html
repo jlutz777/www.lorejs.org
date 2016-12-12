@@ -5,8 +5,8 @@ permalink: /quickstart/setup/step-3/
 
 {% capture markdown %}
 
-# Step 3: Start the Application
-Once all the dependencies have been installed, you can start the application by running `npm start`.
+# Step 3: Run the Application
+Once all the dependencies have been installed, you can run the application by typing `npm start`.
 
 ```sh
 $ npm start
@@ -24,21 +24,21 @@ A successful execution should produce output similar to this:
 webpack: bundle is now VALID.
 ```
 
-This step does two things. First, it kicks off [Webpack](https://webpack.github.io/), a popular build tool that will
-bundle all the project files together so they can be served to a browser. Second, this command starts up a
-development server that will serve the bundle so you can view the application.
+This step invokes [Webpack](https://webpack.github.io/) build the application and starts up a development server so
+you can view it in the browser.
 
 ### View the App
 
-Once the application successfully builds, you can view it by navigating to `http://localhost:3000` in your
-browser. Once you do, you should see this:
+Once the application is done building, you can view it by navigating to `http://localhost:3000`. Once you do, you
+should see this:
 
 <img class="drop-shadow" src="/assets/images/quickstart/setup/step-3.png">
 
 ### Optional: Change the Port
 
 If you want to change the port the server runs on, you can do that by using an alternate syntax to start the server.
-`npm start` is really just an alias for `node server`, and you can pass a `port` argument to `node server` like this:
+If you examine the `package.json` file you'll see that `npm start` is just an alias for `node server`, and you can
+pass a `port` argument to `node server` like this:
 
 ``` sh
 node server --port=3001
@@ -60,7 +60,7 @@ GET http://localhost:3000/service-worker.js net::ERR_INVALID_RESPONSE
 
 ## Next Steps
 
-Next we're going to [download and run the API server](../step-4/).
+Next we're going to [setup the mock API server](../step-4/) we'll be using for this quickstart.
 
 {% endcapture %}
 {{ markdown | markdownify }}

@@ -5,17 +5,25 @@ permalink: /quickstart/setup/step-4/
 
 {% capture markdown %}
 
-# Step 4: Boot the Mock API Server
+# Step 4: Setup the Mock API Server
 To emulate a real application, this quickstart will be using [json-server](https://github.com/typicode/json-server)
 to provide a mock API.
 
-New Lore projects already include `json-server` by default. This is due to the projects ease of use, excellent feature
-support (such as pagination, search, and relationship expansion) and overall ability to help bootstrap new projects.
+New applications include `json-server` by default. This is due to the projects ease of use, excellent feature
+support (including pagination, search, and relationship expansion) and overall ability to help bootstrap new projects.
+
+If you're using the CLI to follow along, you can complete this step by running the following command:
+
+```sh
+lore quickstart server
+```
 
 ### Add Mock Data
-This quickstart requires two API endpoints; one to retrieve `tweets` and one to retrieve `users`. We're going to add
-some mock data to `json-server` so we have something to visualize. At the root of your project is a `db.json` file.
-Parste this data into that file.
+For this quickstart we need two API endpoints; one to retrieve `tweets` and one to retrieve `users`. We can accomplish
+this by adding data to the `db.json` file at the root of you project. This file is used by `json-server` as both a
+database and a blueprint for what endpoints should exist.
+
+Paste this data into `db.json`:
 
 ```json
 {
@@ -141,7 +149,7 @@ Parste this data into that file.
 ```
 
 ### Start the Mock Server
-Next start the mock server by running this command:
+Next run the mock server with this command:
 
 ```sh
 $ npm run server
@@ -169,18 +177,17 @@ This tells us the API server is available at `http://localhost:1337` and we can 
 `/users` and the list of _tweets_ from `/tweets`
 
 
+### Optional: Changing the Port
 
-### Optional: Change the Port
-
-If you want to change the port the API server runs on, you can do that by using an alternate syntax to start the server.
+If you want to change the port `json-server` runs on, you can do that by using an alternate syntax to start the server.
 
 ``` sh
-node app.js --port=3001
+./node_modules/json-server/bin/index.js --watch db.json --port=1337
 ```
 
 ## Next Steps
 
-Next we're going to begin [laying out the application](../../layout/overview/).
+Next we're going to [lay out the application](../../layout/overview/).
 
 {% endcapture %}
 {{ markdown | markdownify }}

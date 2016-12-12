@@ -5,16 +5,16 @@ permalink: /quickstart/setup/step-2/
 
 {% capture markdown %}
 
-# Step 2: Create A New Application
+# Step 2: Create the Application
 
-To create a new Lore app, type `lore new` into the command line followed the by name of your application. For this
+To create a new application, type `lore new` into the command line followed the by name of your application. For this
 example we are going to call our application `lore-quickstart`.
 
 ```sh
 $ lore new lore-quickstart
 ```
 
-This will create a new directory called `lore-quickstart`, and place all the necessary files inside. You should see
+This will create a new directory called `lore-quickstart`, and place all the application files inside. You should see
 this message when the task completes.
 
 ```sh
@@ -38,9 +38,10 @@ $ lore new lore-quickstart --esnext
 ```
 
 In addition to changing the syntax of the initial project files, passing in either of these options will also set the
-`language` property in the `.lorerc` file (located at the root of the project) to your preference. This property is
-used as a way of declaring your language preference to the CLI, and any future files it generates (using commands we've
-cover later) will automatically be created using that syntax.
+`language` property in the `.lorerc` file (located at the root of the project) to your preference.
+
+This property is used as a way of declaring your language preference to the CLI, and any future files it generates
+(using commands we've cover later) will automatically be created using that syntax.
 
 This means you'll only have to declare your language preference once and the CLI will continue to respect it.
 
@@ -57,8 +58,7 @@ Depending on your network connection, it might take 2-4 minutes for this step to
 
 ## Next Steps
 
-Now that we've created our project and installed the dependencies, let's [start the application](../step-3/) and view
-it in a browser!
+Now that we've created our project and installed the dependencies, let's [build the application](../step-3/).
 
 {% endcapture %}
 {{ markdown | markdownify }}
