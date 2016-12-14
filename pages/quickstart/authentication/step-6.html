@@ -1,0 +1,130 @@
+---
+layout: quickstart
+permalink: /quickstart/authentication/step-6/
+---
+
+{% capture markdown %}
+
+# Step 6: Set CurrentUser to Context
+
+In this step we're going to save the current user to context, so any component in the application can access it.
+
+### The Master Component
+You may have noticed a component called `Master` in your components folder. This component is intended to serve as a
+non-visual wrapper around your application, and has two main functions:
+
+1. Subscribe to the Redux store, so the application will re-render when the store changes
+2. Fetch any data that needs to be retrieved before the application loads
+
+In this step, we'll be focusing on the second function, and fetching the profile for the current user before we load
+the rest of the application.
+
+### Add /user route to mock API
+Currently we don't have an API we can use to exchange the token from Auth0 for a proper user object. So let's create
+one (reminder: we'll be replacing the mock API with a real one later).
+
+Open up `db.json` and add a new endpoint called `/user` by adding this JSON to the bottom of the file:
+
+```js
+{
+  "users": [
+    ...
+  ],
+  "tweets": [
+    ...
+  ],
+  "user": {
+    "id": 1,
+    "nickname": "ayla",
+    "avatar": "https://cloud.githubusercontent.com/assets/2637399/19027069/a356e82a-88e1-11e6-87d8-e3e74f55c069.png"
+  }
+}
+```
+
+With this change in place, if you navigate to `/user` the API will return an object telling us we are Ayla.
+
+### Set the endpoint for the currentUser model
+Next, we need to tell Lore where it can fetch the current user. Open up the `currentUser` model and find the property
+for `endpoint`. Change it from `currentUser` to `user` like this:
+
+```jsx
+module.exports = {
+  endpoint: 'user'
+}
+```
+
+### Fetch the Current User in Master
+Now let's fetch the current user when the application loads. Update the `Master` component to look like this. We're
+going to request the `currentUser` in the `lore.connect` wrapper, and we're doing to check the state in render and
+display a loading experience until the current user is returned.
+
+```jsx
+var React = require('react');
+var PayloadStates = require('../constants/PayloadStates');
+
+module.exports = lore.connect(function(getState, props) {
+  return {
+    user: getState('currentUser', {})
+  };
+}, { subscribe: true })(
+  React.createClass({
+    displayName: 'Master',
+
+    render: function() {
+      var user = this.props.user;
+
+      if (user.state === PayloadStates.FETCHING) {
+        return (
+          <h1 className="loading-text">
+            Loading...
+          </h1>
+        )
+      }
+
+      return (
+        <div>
+          {React.cloneElement(this.props.children)}
+        </div>
+      );
+    }
+  })
+);
+```
+
+### Save the User in Context
+Finally, we're going to save the current user to the applications context, so any component that needs it can access
+it. This is a good use of context because we're always going to have a user, and it could be used by any component in
+the application. Update your `Master` component to include methods for saving the user to context:
+
+```jsx
+...
+React.createClass({
+  ...
+
+  propTypes: {
+    user: React.PropTypes.object.isRequired
+  },
+
+  childContextTypes: {
+    user: React.PropTypes.object
+  },
+
+  getChildContext: function() {
+    return {
+      user: this.props.user
+    };
+  },
+
+  render: function() {
+    ...
+  }
+...
+```
+
+## Next Steps
+
+This is currently the last step in the Quickstart, but more steps will be coming soon (like pagination and
+authorization, and we'll be replacing the mock API with a real one).
+
+{% endcapture %}
+{{ markdown | markdownify }}

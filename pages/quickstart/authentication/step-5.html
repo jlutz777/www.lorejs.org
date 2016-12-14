@@ -1,0 +1,96 @@
+---
+layout: quickstart
+permalink: /quickstart/authentication/step-5/
+---
+
+{% capture markdown %}
+
+# Step 5: Add Logout Experience
+
+In this step we're going to add a logout experience.
+
+### Create the Logout Component
+While we don't have a "logout page" in a visual sense, we still have behavior that we want executed when the user logs
+out, such as removing their user token and redirecting them the login page. We're going to store this behavior in
+a component so that we can have it occur when the user navigates to the `/logout` route.
+
+To get started, create a `Logout` component:
+
+```
+lore generate component Logout
+```
+
+Update your Logout component to look like this:
+
+```jsx
+var React = require('react');
+var auth = require('../utils/auth');
+
+module.exports = React.createClass({
+  displayName: 'Logout',
+
+  propTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
+  componentDidMount: function(){
+    auth.deleteToken();
+    this.props.router.push('/');
+  },
+
+  render: function() {
+    return (
+      <h1 className="loading-text">
+        Logging out...
+      </h1>
+    );
+  }
+
+});
+```
+
+### Add the /logout route
+Next import your `Logout` component into `routes.js` and update the routes to look like this:
+
+```jsx
+var Logout = require('./src/components/Logout');
+
+module.exports = (
+  <Route>
+    <Route path="/login" component={Login} />
+    <Route path="/logout" component={Logout} />
+
+    ...
+  </Route>
+);
+```
+
+### Connect Logout Button to /logout Route
+Finally, we need to make it so that when the user clicks the `Logout` button in the `Profile` component they are
+redirect to the `/logout` route, which will delete their user token and redirect them to the login page.
+
+Locate the Logout button in your `Profile` component:
+
+```jsx
+<button className="btn btn-primary">
+  Logout
+</button>
+```
+
+Convert this button to a React Router `Link` and have it point to `/logout`:
+
+```jsx
+<Router.Link className="btn btn-primary" to="/logout">
+  Logout
+</Router.Link>
+```
+
+With this change in place, clicking the Logout button will redirect you to `/login`, and once you log in, you'll be
+redirected to the main application.
+
+## Next Steps
+
+Next we're going to [DO SOMETHING](../step-6/).
+
+{% endcapture %}
+{{ markdown | markdownify }}

@@ -1,0 +1,142 @@
+---
+layout: quickstart
+permalink: /quickstart/authentication/step-4/
+---
+
+{% capture markdown %}
+
+# Step 4: Save the Token & Redirect on Login
+
+In this step we're going to save the user token in local storage and redirect the user after a successful login.
+
+### Save the Token
+Open up the `Login` component. Import the `src/utils/auth` utility and update the `onAuthentication` callback to look
+like this:
+
+```jsx
+var auth = require('../utils/auth');
+...
+  onAuthentication: function(authResult) {
+    auth.saveToken(authResult.idToken);
+  },
+...
+```
+
+With this change in place, whenever the user logs in we will save the idToken provided by Auth0 to localStorage.
+
+### Redirect the User
+With the token saved to localStorage, we can now redirect the user back to the application, and (because the token
+now exists) it won't redirect us back. Update the `onAuthentication` method to look like this (router is provided as a
+prop by React Router):
+
+```jsx
+  onAuthentication: function(authResult) {
+    auth.saveToken(authResult.idToken);
+    this.props.router.push('/');
+  },
+```
+
+Finally, add a `componentWillUnmount` method to hide the lock when the `Login` component is unmounted:
+
+```jsx
+  componentWillUnmount: function() {
+    this.lock.hide();
+  },
+```
+
+With that change in place, refresh the browser and navigate to `/login`. Once you login in, the application will
+redirect you to the `/` route and transition the login dialog off the page. Pretty neat!
+
+### Visual Check-in
+
+If everything went well, your application should now look like this.
+
+![New Lore App](/assets/images/quickstart/step2-visual.png)
+
+## Code Changes
+
+Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
+between this step and the last one.
+
+### src/components/Login.js
+
+{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tab id=1, is_active=true %}
+![New Lore App](/assets/images/quickstart/step2-diff-header.png)
+{% endtab %}
+{% tab id=2 %}
+```js
+var React = require('react');
+var Auth0Lock = require('auth0-lock').default;
+var auth = require('../auth');
+var Router = require('react-router');
+var lock = null;
+
+module.exports = Router.withRouter(React.createClass({
+  displayName: 'Login',
+
+  componentDidMount: function() {
+    this.showLogin();
+  },
+
+  componentWillUnmount: function() {
+    var lock = this.getLock();
+    lock.hide();
+  },
+
+  getLock: function(){
+    var clientId = lore.config.auth0.clientId;
+    var domain = lore.config.auth0.domain;
+
+    // Because the lock injects elements into the DOM outside the control of
+    // React, we should treat it as a singleton in order to prevent visual
+    // side-effects where multiple background overlays can appear if you navigate
+    // to /login multiple times without refreshing the browser in between.
+    if(!lock) {
+      lock = new Auth0Lock(clientId, domain, {
+        auth: {
+          redirect: false,
+          sso: false,
+          params: {scope: 'openid name email'}
+        },
+        languageDictionary: {
+          title: "Lore Tutorial"
+        }
+      });
+    }
+
+    return lock;
+  },
+
+  navigateBackToApp: function() {
+    this.props.router.push('/');
+  },
+
+  onAuthentication: function(authResult) {
+    auth.login(authResult.idToken);
+    this.navigateBackToApp();
+  },
+
+  showLogin: function(){
+    var lock = this.getLock();
+    lock.on('authenticated', this.onAuthentication);
+    lock.show();
+  },
+
+  render: function() {
+    return (
+      <div/>
+    );
+  }
+
+}));
+```
+{% endtab %}
+{% endtabs %}
+
+## Next Steps
+
+Next we're going to [DO SOMETHING](../step-5/).
+
+{% endcapture %}
+{{ markdown | markdownify }}
