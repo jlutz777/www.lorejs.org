@@ -15,10 +15,10 @@ If you're using the CLI to follow along, you can complete this step by running t
 lore quickstart step10
 ```
 
-### The Connect Decorator (Higher Order Component)
-Lore provides a decorator you can use to wrap a component that requires data, and you can learn more about `connect`
-in the [documentation for connect](/concepts/connect/) and the documentation for
-[configuring connect](/features/config/connect/). The syntax for using connect looks like this:
+### The Connect Decorator
+Lore provides a decorator (also known as a Higher Order Component) that allows components to declare what data they
+need, and the framework will automatically retrieve it from the API if it doesn't exist. The syntax for using connect
+looks like this:
 
 ```jsx
 lore.connect(function(getState, props){
@@ -28,6 +28,9 @@ lore.connect(function(getState, props){
 })(Component);
 ```
 
+> You can learn more about `connect` in the [concept documentation](/concepts/connect/) as well as the documentation
+> for [configuring connect](/features/config/connect/).
+
 The first parameter, `getState` is a function that will either retrieve the piece of state requested, or invoke the
 appropriate action to retrieve that data if it doesn't exist in the store (such as when the data has not yet been
 fetched from the server).
@@ -36,7 +39,7 @@ In this example, we're requested `tweet.find`. The `find` reducer is responsible
 and pagination requests made to the server. Since we aren't passing in any query paramters or pagination information,
 this request translates to "make a call to the /tweets endpoint on the API and give me whatever comes back".
 
-That data is going to be passed to our Feed component as `tweets` since that is what we named the key.
+That data will then be passed to our Feed component as `tweets` since that is what we named the key.
 
 ### Wrap Feed with Connect
 To use `connect`, open up your `Feed` component and wrap it with the decorator like this:
@@ -82,7 +85,7 @@ class Feed extends React.Component {
 export default Feed;
 ```
 
-### Reload the Page + Parse Error
+### Refresh the Browser
 Once you've wrapped the `Feed` component, reload the page. You'll notice the mock tweet data no longer appears, but
 neither does the API data. If you open the developer tools in the browser, you'll see an error in the console that
 looks like this:

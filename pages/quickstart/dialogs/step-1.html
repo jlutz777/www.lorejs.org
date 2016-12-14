@@ -1,0 +1,215 @@
+---
+layout: quickstart
+permalink: /quickstart/dialogs/step-1/
+---
+
+{% capture markdown %}
+
+# Step 1: Add Create Button
+
+In this step we're going to add a button to our application that we can use to launch a dialog to create tweets.
+
+If you're using the CLI to follow along, you can complete this step by running the following command:
+
+```sh
+lore quickstart step14
+```
+
+### Add Create Button
+We're going to a button to the application that will launch a "create tweet" dialog when the user clicks on it. Run
+this command to create our `CreateButton` component:
+
+```sh
+lore generate component CreateButton
+```
+
+Modify the component to look like this. We're going to add some styling and an `onClick` callback that will launch
+the create dialog. For now we'll just have the callback log that it was clicked to the console.
+
+```jsx
+var React = require('react');
+
+module.exports = React.createClass({
+  displayName: 'CreateButton',
+
+  getStyles: function() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  },
+
+  onClick: function() {
+    console.log('Create tweet!');
+  },
+
+  render: function () {
+    var styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+});
+```
+
+### Add Button to Header
+Next open up the `Header` component. Import the `CreateButton` component and insert it into the render method. We
+also need to add a style to the container so the button is positioned properly in the header:
+
+```jsx
+var React = require('react');
+var Router = require('react-router');
+var CreateButton = require('./CreateButton');
+
+module.exports = React.createClass({
+  displayName: 'Header',
+
+  getStyles: function() {
+    return {
+      container: {
+        position: 'relative',
+      }
+    }
+  },
+
+  render: function () {
+    var styles = this.getStyles();
+
+    return (
+      <nav className="navbar navbar-default navbar-static-top">
+        <div className="container" style={styles.container}>
+          <div className="navbar-header">
+            <Router.Link className="navbar-brand" to="/">
+              Lore Tutorial
+            </Router.Link>
+          </div>
+          <CreateButton/>
+        </div>
+      </nav>
+    );
+  }
+});
+```
+
+### Visual Check-in
+
+If everything went well, your application should now look like this.
+
+<img class="drop-shadow" src="/assets/images/quickstart/dialogs/step-1.png">
+
+## Code Changes
+
+Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
+between this step and the last one.
+
+### src/components/CreateButton.js
+
+{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tab id=1, is_active=true %}
+![config](/assets/images/quickstart/diffs/dialogs/step-1-create-button.png)
+{% endtab %}
+{% tab id=2 %}
+```jsx
+var React = require('react');
+
+module.exports = React.createClass({
+  displayName: 'CreateButton',
+
+  getStyles: function() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  },
+
+  onClick: function() {
+    console.log('Create tweet!');
+  },
+
+  render: function () {
+    var styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+});
+```
+{% endtab %}
+{% endtabs %}
+
+### src/components/Header.js
+
+{% tabs tab1={"name": "Diff", "id": 3} | tab2={"name": "Source", "id": 4} %}
+{% tab id=3, is_active=true %}
+![config](/assets/images/quickstart/diffs/dialogs/step-1-header.png)
+{% endtab %}
+{% tab id=4 %}
+```jsx
+var React = require('react');
+var Router = require('react-router');
+var CreateButton = require('./CreateButton');
+
+module.exports = React.createClass({
+  displayName: 'Header',
+
+  getStyles: function() {
+    return {
+      container: {
+        position: 'relative',
+      }
+    }
+  },
+
+  render: function () {
+    var styles = this.getStyles();
+
+    return (
+      <nav className="navbar navbar-default navbar-static-top">
+        <div className="container" style={styles.container}>
+          <div className="navbar-header">
+            <Router.Link className="navbar-brand" to="/">
+              Lore Tutorial
+            </Router.Link>
+          </div>
+          <CreateButton/>
+        </div>
+      </nav>
+    );
+  }
+});
+```
+{% endtab %}
+{% endtabs %}
+
+## Next Steps
+
+Next we're going to [learn how to mount dialogs](../step-2/).
+
+{% endcapture %}
+{{ markdown | markdownify }}

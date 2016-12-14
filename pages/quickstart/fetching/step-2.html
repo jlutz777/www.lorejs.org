@@ -5,7 +5,7 @@ permalink: /quickstart/fetching/step-2/
 
 {% capture markdown %}
 
-# Step 2: Create Tweet Model
+# Step 2: Create a Tweet Model
 
 In this step we're going to create a model for our tweet, and learn about the implicit functionality provided by Lore.
 
@@ -15,16 +15,17 @@ If you're using the CLI to follow along, you can complete this step by running t
 lore quickstart step9
 ```
 
-### Create the Tweet Model
-To create our tweet model run the following command:
+### Create a Tweet Model
+Before you can fetch data in Lore, you first need to create a model that represents the resource you want to fetch.
+Since we want to fetch tweets, we are going to create a `tweet` model by running this command:
 
 ```
 lore generate model tweet
 ```
 
-This command will create a model called `tweet` located at `src/models/tweet.js`. And if you open that file up, you
-should see a lot of comments, which show some of the options that exist to tailor behavior when interacting with the
-`/tweets` endpoint. But aside from the comments, this file is essentially empty:
+This will create a `tweet` model and place the file at `src/models/tweet.js`. Open this file and you will see comments
+showing you some of the properties you can override along with their default values. But if you ignore all the
+comments this file is essentially empty:
 
 ```js
 module.exports = {
@@ -32,21 +33,44 @@ module.exports = {
 };
 ```
 
-### Empty File, Lots of Functionality
-This file may be empty, but believe it or not, the application now has the ability to fetch, create, update and
-delete tweets. To prove this, refresh your browser and open up the developer tools. Navigate to the console and enter
-this command:
+### Console Demo: Convention-over-Configuration
+As you'll soon see, we now have all the code required to fetch tweets from the API. Lore accomplishes this using
+a philosophy called convention-over-configuration. With this approach the framework makes some assumptions about
+what you want, and then provides you with the ability to override those assumptions if you need to.
 
-```
+To illustrate, refresh the browser and open up the developer console. Then enter this command into the console:
+
+```js
 lore.actions.tweet.find()
 ```
 
-Once you do this you should see a GET request sent to `http://localhost:1337/tweets`, and the API server will respond
-with the first page of tweets. So basically, just by creating a model named `tweet`, you have a method you can invoke
-to fetch tweets. That's pretty cool!
+When you created the `tweet` model Lore assumed you wanted a set of actions that could find, create, update and
+delete tweets. After creating these actions, it attached them to `lore.actions`. The command you just entered invoked
+the `find` action to fetch tweets from the API. And if you examine the network tab, you can see that a network request
+was indeed sent out to `http://localhost:1337/tweets`.
 
-> When you do this you will see an error in the console like `Expected models to be an array but got...did you forget
-> to override parse to extract the models?`. This is expected, and we'll be solving the issue in a couple steps.
+> The URL was composed from a convention, which defaults to "pluralize the model name and append it to the apiRoot". You
+> can change this convention as needed through settings for pluralization, casing style, or just explicitly specifying
+> the endpoint.
+
+You can also fetch tweets by a specific user, by providing an object of query parameters to find() like this:
+
+```js
+lore.actions.tweet.find({
+  userId: 1
+})
+```
+
+In addition to create a set of actions, Lore also produces a set of reducers that store the tweets returned by the API.
+To see the list of tweets returned for example, enter this command into the developer console:
+
+```js
+lore.store.getState().tweet.byId
+```
+
+That's pretty impressive, but we're not done yet. In the next section we'll learn how components can declare what data
+they need.
+
 
 ### Visual Check-in
 

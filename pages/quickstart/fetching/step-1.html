@@ -5,9 +5,9 @@ permalink: /quickstart/fetching/step-1/
 
 {% capture markdown %}
 
-# Step 1: Set API Server Location
+# Step 1: Set the API Location
 
-In this step we're going to learn how to set the location of the API server.
+In this step we're going to set the location of the API server.
 
 If you're using the CLI to follow along, you can complete this step by running the following command:
 
@@ -16,58 +16,39 @@ lore quickstart step8
 ```
 
 ### The Config Folder
-Before we can fetch data from our API server we need to tell Lore where our API server is located. At the root of
-your project you should see a folder called `config`. This folder exposes all of the toggles and knobs you can use to
-tailor Lore's behavior to your specific needs.
+At the root of your project you should see a folder called `config`. This folder exposes all of the controls you can
+use to tailor Lore's behavior to your applications needs.
 
-Navigate into this folder and open a file called `models.js`. Toward the top of this file you should see a commented
-out line that looks like this:
+Navigate into this folder and open a file called `connections.js`. Toward the top of this file you will see a
+commented out line that looks like this:
 
 ```js
-module.exports = {
+...
   // apiRoot: 'https://api.example.com',
-}
+...
 ```
 
 You'll see commented out sections like this in all of the config files, and they represent the built-in defaults that
-Lore uses. In this case, Lore assumes you're API is located at `https://api.example.com` which is obviously not going
-to be true. So let's tell Lore where our API is located by uncommenting out this line and changing it to the following:
+Lore uses. In this case, Lore assumes your API is located at `https://api.example.com`, which is clearly not true.
+Tell Lore where the API is located by uncommenting that line and change it to the following:
 
 ```js
-module.exports = {
+...
   apiRoot: 'http://localhost:1337',
-}
+...
 ```
 
-With this change in place, we're almost ready to fetch data. But first, we need to talk about what `models` are.
+With this change in place, we're almost ready to fetch data.
 
-> Aside: Environment-specific Configuration
-> While we won't cover it in this tutorial, you'll notice there is a `/env` folder in `/config` that contains files
-> called `development.js` and `production.js`. These files allow you to override or add configuration settings that only
-> apply to that environment. For example, if you're NODE_ENV is set to `development`, the final configuration will be
-> all of the files located in `/config`, overriden by any settings you've specified in `/config/development.js`. The
-> `/config/local.js` file ONLY applies to your local environment, and is added to the .gitignore file by default, so it
-> will never be checked.
-
-### Models
-If you navigate to the URL `http://localhost:1337/tweets/1` you might see a response like that looks like this:
-
-```js
-{
-  id: 1,
-  user: 1,
-  text: 'Nothing can beat science!',
-  createdAt: '2016-10-04T05:10:49.382Z'
-}
-```
-
-One way to think of this data is as a `model` of a `tweet`; it models what was said and who said it. In Lore, there is
-a concept called a `model` that understands how to interact with this endpoint. For example, in this tutorial we'll soon
-be creating a `tweet` model, and this model will know how to fetch, create, update and delete tweets.
-
-But the endpoints within an API often share a lot of common conventions, and having to redefine these conventions (like
-the root URL for the API server) would be a lot of duplication of information. This config file exists as a way to define
-that common behavior in a single location, and all models in the application will inherit those properties.
+> *Environment-specific Configurations*
+>
+> You may notice a `/env` folder in `/config` that contains files called `development.js` and `production.js`. These
+> files allow you to customize the config on a per-environment basis. For example, if your NODE_ENV is set to
+> `production`, the final configuration will be all of the files located in `/config`, overriden by any settings
+> you've specified in `/config/production.js`.
+>
+> The`/config/local.js` file ONLY applies to your local environment, and is included in the .gitignore by
+> default so that it will never be checked.
 
 ### Visual Check-in
 
