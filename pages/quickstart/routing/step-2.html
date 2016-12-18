@@ -126,9 +126,9 @@ export default class Feed extends React.Component {
 {% endtabs %}
 
 ### Add Feed to Routes.js
-Next open `routes.js` and import the Feed component. Then create a child route under `/` route where we're rendering
-the `Layout`. But unlike the other routes, we're going to use an `IndexRoute` and not the standard `Route`. The
-`IndexRoute` is used when you want to say _"render this component as the default for this route"_.
+Next open `routes.js` and import the Feed component. Then add an IndexRoute within the root route that renders the
+Feed. This setup will give us the flexibility to change content displayed within the main page later, but defaults what
+is dispalyed to the Feed.
 
 Here are the changes you need to make to `routes.js`:
 
@@ -329,7 +329,7 @@ module.exports = React.createClass({
 
 ## Next Steps
 
-Next we're going to add some mock data to our application and learn about [why your data structure is important](../../data/overview/).
+Next we're going to learn about the data structure Lore uses and [add some mock data to our application ](../../data/overview/).
 
 {% endcapture %}
 {{ markdown | markdownify }}

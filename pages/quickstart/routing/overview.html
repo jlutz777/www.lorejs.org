@@ -18,6 +18,9 @@ At the end of this section your application will look like this:
 
 At the root of your project is a file called `routes.js` that looks like this:
 
+<pre>
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
 var Master = require('./src/components/Master');
 var Layout = require('./src/components/Layout');
@@ -28,6 +31,34 @@ module.exports = (
   </Route>
 );
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+
+export default (
+  <Route component={Master}>
+    <Route path="/" component={Layout} />
+  </Route>
+)
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+
+export default (
+  <Route component={Master}>
+    <Route path="/" component={Layout} />
+  </Route>
+)
+```
+{% endtab %}
+{% endtabs %}
+</pre>
+
 
 If you're familiar with [react-router](https://github.com/ReactTraining/react-router) this file should look very
 familiar. React Router is one of the core libraries that Lore is built on, and this file exposes the routes that are

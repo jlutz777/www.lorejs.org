@@ -23,7 +23,9 @@ This will generate a component called `Header` and place it at `src/components/H
 will match whichever version of JavaScript you specified when you created the project (ES5, ES6 or ESNext) and will look
 like this:
 
-```js
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
+```jsx
 var React = require('react');
 
 module.exports = React.createClass({
@@ -38,17 +40,54 @@ module.exports = React.createClass({
   }
 });
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+import React from 'react';
 
-If you're interested in learning more about the `generate` command see [the docs for the CLI](/cli/generate/component/).
+let Header = React.Component {
+  render() {
+    return (
+      <div></div>
+    );
+  }
+}
+
+Header.propTypes = {};
+
+export default Header;
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+import React from 'react';
+
+export default class Header extends React.Component {
+
+  static propTypes = {}
+
+  render() {
+    return (
+      <div></div>
+    );
+  }
+}
+```
+{% endtab %}
+{% endtabs %}
+
+> If you're interested in learning more about the `generate` command see [the docs for the CLI](/cli/generate/component/).
 
 ### Modify the Header Component
 
 Now that we've created the skeleton for the Header component, modify the render function to look like this:
 
-```js
+{% tabs tab1={"name": "ES5", "id": 104} | tab2={"name": "ES6", "id": 105} | tab3={"name": "ESNext", "id": 106} %}
+{% tab id=104, is_active=true %}
+```jsx
 // src/components/Header.js
 ...
-  render: function () {
+  render: function() {
     return (
       <nav className="navbar navbar-default navbar-static-top">
         <div className="container">
@@ -63,13 +102,58 @@ Now that we've created the skeleton for the Header component, modify the render 
   }
 ...
 ```
+{% endtab %}
+{% tab id=105 %}
+```jsx
+// src/components/Header.js
+...
+  render() {
+    return (
+      <nav className="navbar navbar-default navbar-static-top">
+        <div className="container">
+          <div className="navbar-header">
+            <div className="navbar-brand">
+              Lore Quickstart
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+...
+```
+{% endtab %}
+{% tab id=106 %}
+```jsx
+// src/components/Header.js
+...
+  render() {
+    return (
+      <nav className="navbar navbar-default navbar-static-top">
+        <div className="container">
+          <div className="navbar-header">
+            <div className="navbar-brand">
+              Lore Quickstart
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+...
+```
+{% endtab %}
+{% endtabs %}
+
 
 ### Add the Header to the Layout
 
 Finally we need to modify the output of the `Layout` component so the Header gets rendered to the browser. Import the
 `Header` component into `Layout` and update the render function for `Layout` to look like this:
 
-```js
+{% tabs tab1={"name": "ES5", "id": 107} | tab2={"name": "ES6", "id": 108} | tab3={"name": "ESNext", "id": 109} %}
+{% tab id=107, is_active=true %}
+```jsx
 // src/components/Layout.js
 var Header = require('./Header');
 ...
@@ -89,6 +173,53 @@ var Header = require('./Header');
   }
 ...
 ```
+{% endtab %}
+{% tab id=108 %}
+```jsx
+// src/components/Layout.js
+import Header from './Header';
+...
+  render() {
+    return (
+      <div>
+        <Header />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-offset-3 col-md-6">
+              {/* Feed will go here */}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+...
+```
+{% endtab %}
+{% tab id=109 %}
+```jsx
+// src/components/Layout.js
+import Header from './Header';
+...
+  render() {
+    return (
+      <div>
+        <Header />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-offset-3 col-md-6">
+              {/* Feed will go here */}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+...
+```
+{% endtab %}
+{% endtabs %}
+
 
 ### Visual Check-in
 
