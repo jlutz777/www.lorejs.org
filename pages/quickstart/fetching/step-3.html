@@ -12,7 +12,7 @@ In this step we're going to use the `connect` decorator to enable our Tweet comp
 
 ### The Connect Decorator
 Lore provides a decorator (also known as a Higher Order Component) that allows components to declare what data they
-need, and the framework will automatically retrieve it from the API if it doesn't exist.
+need, and the framework will automatically retrieve it from the API if it doesn't exist in the local store.
 
 The decorator is called `connect` and the syntax for using it looks like this:
 
@@ -27,11 +27,10 @@ lore.connect(function(getState, props){
 > You can learn more about `connect` in the [concept documentation](/concepts/connect/) as well as the documentation
 > for [configuring connect](/features/config/connect/).
 
-The first parameter, `getState` is a function that will either retrieve the piece of state requested from the store,
-or invoke the appropriate action to retrieve that data if it doesn't exist (such as when the data has not yet been
-fetched from the server).
+The first parameter `getState` is a function that will retrieve a piece of state from the local store, or invoke the
+appropriate action to fetch that data if it doesn't already exist (i.e. it hasn't been fetched from the server before).
 
-In this example, we're requested `tweet.find`. The `find` reducer is responsible for storing the results of all query
+In this example, we're requesting `tweet.find`. The `find` reducer is responsible for storing the results of all query
 and pagination requests made to the server. Since we aren't passing in any query paramters or pagination information,
 this request translates to _"make a call to the /tweets endpoint on the API and give me whatever comes back"_.
 

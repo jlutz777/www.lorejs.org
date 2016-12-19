@@ -7,25 +7,39 @@ permalink: /quickstart/fetching/step-4/
 
 # Step 4: Display Loading Experience
 
-In this step we're going to use the `state` property on the data structure to display a loading message while the
-tweets are being fetching.
+In this step we're going to use the `state` property in the data structure in order to display a loading message
+while the list of tweets are being fetching.
 
+### The Problem
+While it may happen too quickly to notice, there is a period of time before the list of tweets is displayed when
+the page simply says "Feed" with a blank experience underneath. This happens because the application doesn't fetch the
+tweets until the first time the `Feed` component is rendered, and that component can't render data it doesn't have yet.
+
+Showing a blank view is a bad user experience, so let's update our `Feed` component to display the text "Loading..."
+while the tweets are being fetched.
 
 ### Add a Loading Experience
-While it may not be obvious right now (because our API returns the data so quickly), there is a moment before the
-list of tweets renders when the page simply says "Feed" with no data.
+When Lore interacts with data (such as fetching, creating, updating or deleting it) the action creators built into
+the framework update the `state` property of the data to reflect the action being performed.
 
-The reason for that is that the data is currently being fetched, and we can't render what we don't have. Showing a
-blank view is a bad user experience, so let's take advantage of the `state` property on our `tweets` to discover
-when the data is being fetched and render the text "Loading..." to the screen.
+The first time our `Feed` component is rendered for example, it requests the data associated with `tweet.find`
+using the `getState` method of the `connect` decorator. Since this data doesn't exist yet, the framework invokes
+an action to go fetch it.
 
-There's a folder in Lore located at `src/constants` that contains a file called `PayloadStates`. This file contains
-all of the states that data can be in by default (generic states the framework will apply automatically). Import
-that file into `Feed` and use it in render to display a loading experience while the tweets are fetching:
+This action will set the `state` property of the data to `FETCHING` in order to notify you that the data is being
+fetched. Once the data returns, the action will update the `state` property to have a value of `RESOLVED` to signify
+that the data has been fetched. If there is an error fetching the data, the state would be updated to `ERROR_FETCHING`.
+Let's use this behavior to create our loading experience.
 
+We're going to start by importing a file called `PayloadStates` that resides in `src/constants`. This file is the set of
+string constants that the framework applies to data by default. Import that file into `Feed` and then update the render
+method to display the text _"Loading..."_ when the `state` of the `tweets` is `FETCHING`.
+
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
+...
 var PayloadStates = require('../constants/PayloadStates');
-
 ...
 React.createClass({
   displayName: 'Feed',
@@ -57,8 +71,78 @@ React.createClass({
   }
 
 })
-);
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+...
+import PayloadStates from '../constants/PayloadStates';
+...
+class Tweets extends React.Component {
+  ...
+  render() {
+    const styles = this.getStyles();
+    const tweets = this.props.tweets;
+
+    if (tweets.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+
+}
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+...
+import PayloadStates from '../constants/PayloadStates';
+...
+class Tweets extends React.Component {
+  ...
+  render() {
+    const styles = this.getStyles();
+    const tweets = this.props.tweets;
+
+    if (tweets.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+
+}
+```
+{% endtab %}
+{% endtabs %}
+
 
 Refresh the browser and you should see the text "Loading..." flash on the screen right before the tweets are rendered.
 
@@ -144,7 +228,7 @@ React.createClass({
 
 ## Next Steps
 
-Next we're going to add dialogs to our application [so we can create, update and delete tweets](../../dialogs/overview/).
+Next we're going to [fetch the user for each tweet](../step-5/)
 
 {% endcapture %}
 {{ markdown | markdownify }}
