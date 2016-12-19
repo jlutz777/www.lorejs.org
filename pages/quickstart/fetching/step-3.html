@@ -7,13 +7,14 @@ permalink: /quickstart/fetching/step-3/
 
 # Step 3: Connect Feed Component
 
-In this step we're going to use the `connect` decorator to allow our Tweet component to declare what data it needs.
+In this step we're going to use the `connect` decorator to enable our Tweet component to declare what data it needs.
 
 
 ### The Connect Decorator
 Lore provides a decorator (also known as a Higher Order Component) that allows components to declare what data they
-need, and the framework will automatically retrieve it from the API if it doesn't exist. The syntax for using connect
-looks like this:
+need, and the framework will automatically retrieve it from the API if it doesn't exist.
+
+The decorator is called `connect` and the syntax for using it looks like this:
 
 ```jsx
 lore.connect(function(getState, props){
@@ -26,19 +27,21 @@ lore.connect(function(getState, props){
 > You can learn more about `connect` in the [concept documentation](/concepts/connect/) as well as the documentation
 > for [configuring connect](/features/config/connect/).
 
-The first parameter, `getState` is a function that will either retrieve the piece of state requested, or invoke the
-appropriate action to retrieve that data if it doesn't exist in the store (such as when the data has not yet been
+The first parameter, `getState` is a function that will either retrieve the piece of state requested from the store,
+or invoke the appropriate action to retrieve that data if it doesn't exist (such as when the data has not yet been
 fetched from the server).
 
 In this example, we're requested `tweet.find`. The `find` reducer is responsible for storing the results of all query
 and pagination requests made to the server. Since we aren't passing in any query paramters or pagination information,
-this request translates to "make a call to the /tweets endpoint on the API and give me whatever comes back".
+this request translates to _"make a call to the /tweets endpoint on the API and give me whatever comes back"_.
 
 That data will then be passed to our Feed component as `tweets` since that is what we named the key.
 
 ### Wrap Feed with Connect
 To use `connect`, open up your `Feed` component and wrap it with the decorator like this:
 
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
 module.exports = lore.connect(function(getState, props){
   return {
@@ -50,9 +53,8 @@ React.createClass({
 })
 );
 ```
-
-If you're using **ES6 classes** you would use the decorator like this instead:
-
+{% endtab %}
+{% tab id=102 %}
 ```jsx
 class Feed extends React.Component {
   ...
@@ -64,9 +66,8 @@ export default lore.connect(function(getState, props){
   }
 })(Feed);
 ```
-
-And if you're using **ESNext syntax**, you would use the decorator like this:
-
+{% endtab %}
+{% tab id=103 %}
 ```jsx
 @lore.connect(function(getState, props){
   return {
@@ -79,15 +80,11 @@ class Feed extends React.Component {
 
 export default Feed;
 ```
+{% endtab %}
+{% endtabs %}
 
-### Refresh the Browser
-Once you've wrapped the `Feed` component, reload the page. You'll notice the mock tweet data no longer appears, but
-neither does the API data. If you open the developer tools in the browser, you'll see an error in the console that
-looks like this:
-
-> Expected models to be an array but got...did you forget to override parse to extract the models?
-
-We'll discuss and solve this issue in the next step.
+Once you've wrapped the `Feed` component, reload the page, and you'll notice the mock data has been replaced by real
+data from the API!
 
 ### Visual Check-in
 
@@ -163,7 +160,7 @@ React.createClass({
 
 ## Next Steps
 
-Next we're going to parse the server response to [extract the array of tweets](../step-4/).
+Next we're going to [display a loading message while the tweets are being fetched](../step-4/).
 
 {% endcapture %}
 {{ markdown | markdownify }}
