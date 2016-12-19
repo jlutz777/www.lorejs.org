@@ -7,12 +7,11 @@ permalink: /quickstart/dialogs/step-1/
 
 # Step 1: Add Create Button
 
-In this step we're going to add a button to our application that we can use to launch a dialog to create tweets.
+In this step we're going to add a button to our application that will launch a dialog when the user clicks on it.
 
 
 ### Add Create Button
-We're going to a button to the application that will launch a "create tweet" dialog when the user clicks on it. Run
-this command to create our `CreateButton` component:
+Run this command to generate our `CreateButton` component:
 
 ```sh
 lore generate component CreateButton
@@ -21,6 +20,8 @@ lore generate component CreateButton
 Modify the component to look like this. We're going to add some styling and an `onClick` callback that will launch
 the create dialog. For now we'll just have the callback log that it was clicked to the console.
 
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
 var React = require('react');
 
@@ -59,11 +60,96 @@ module.exports = React.createClass({
   }
 });
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+import React from 'react';
+
+export default class CreateButton extends React.Component {
+
+  getStyles() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  }
+
+  onClick() {
+    console.log('Create tweet!');
+  }
+
+  render () {
+    const styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+
+}
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+import React from 'react';
+
+export default class CreateButton extends React.Component {
+
+  getStyles() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  }
+
+  onClick() {
+    console.log('Create tweet!');
+  }
+
+  render () {
+    const styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+
+}
+```
+{% endtab %}
+{% endtabs %}
+
 
 ### Add Button to Header
 Next open up the `Header` component. Import the `CreateButton` component and insert it into the render method. We
 also need to add a style to the container so the button is positioned properly in the header:
 
+{% tabs tab1={"name": "ES5", "id": 104} | tab2={"name": "ES6", "id": 105} | tab3={"name": "ESNext", "id": 106} %}
+{% tab id=104, is_active=true %}
 ```jsx
 var React = require('react');
 var Router = require('react-router');
@@ -88,7 +174,7 @@ module.exports = React.createClass({
         <div className="container" style={styles.container}>
           <div className="navbar-header">
             <Router.Link className="navbar-brand" to="/">
-              Lore Tutorial
+              Lore Quickstart
             </Router.Link>
           </div>
           <CreateButton/>
@@ -98,6 +184,80 @@ module.exports = React.createClass({
   }
 });
 ```
+{% endtab %}
+{% tab id=105 %}
+```jsx
+import React from 'react';
+import { Link } from 'react-router';
+import CreateButton from './CreateButton';
+
+export default class Header extends React.Component {
+
+  getStyles() {
+    return {
+      container: {
+        position: 'relative',
+      }
+    }
+  }
+
+  render() {
+    var styles = this.getStyles();
+
+    return (
+      <nav className="navbar navbar-default navbar-static-top">
+        <div className="container" style={styles.container}>
+          <div className="navbar-header">
+            <Link className="navbar-brand" to="/">
+              Lore Quickstart
+            </Link>
+          </div>
+          <CreateButton/>
+        </div>
+      </nav>
+    );
+  }
+
+}
+```
+{% endtab %}
+{% tab id=106 %}
+```jsx
+import React from 'react';
+import { Link } from 'react-router';
+import CreateButton from './CreateButton';
+
+export default class Header extends React.Component {
+
+  getStyles() {
+    return {
+      container: {
+        position: 'relative',
+      }
+    }
+  }
+
+  render() {
+    var styles = this.getStyles();
+
+    return (
+      <nav className="navbar navbar-default navbar-static-top">
+        <div className="container" style={styles.container}>
+          <div className="navbar-header">
+            <Link className="navbar-brand" to="/">
+              Lore Quickstart
+            </Link>
+          </div>
+          <CreateButton/>
+        </div>
+      </nav>
+    );
+  }
+
+}
+```
+{% endtab %}
+{% endtabs %}
 
 ### Visual Check-in
 

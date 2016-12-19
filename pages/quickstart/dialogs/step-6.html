@@ -7,15 +7,289 @@ permalink: /quickstart/dialogs/step-6/
 
 # Step 6: Add Delete Link
 
-In this step we're going to create a way to delete tweets.
+In this step we're going to add a "delete" link to tweets that will launch a dialog to delete the tweet.
+
+### Create Edit Link
+Run this command to create a component for our delete link:
+
+```
+lore generate component DeleteLink
+```
+
+Next update the content of the component to look like this. We're going to add some styles, and integrate an `onClick`
+handler that will launch a confirmation dialog when the link is clicked.
+
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
+```jsx
+var React = require('react');
+
+module.exports = React.createClass({
+  displayName: 'DeleteLink',
+
+  propTypes: {
+    tweet: React.PropTypes.object.isRequired
+  },
+
+  getStyles: function() {
+    return {
+      link: {
+        cursor: 'pointer',
+        marginRight: '16px'
+      }
+    }
+  },
+
+  onDestroy: function() {
+    var tweet = this.props.tweet;
+
+    function destroyTweet() {
+      lore.actions.tweet.destroy(tweet);
+    }
+
+    lore.dialog.show(function() {
+      return lore.dialogs.tweet.destroy({
+        model: tweet,
+        onSubmit: destroyTweet
+      });
+    });
+  },
+
+  render: function() {
+    var styles = this.getStyles();
+
+    return (
+      <a style={styles.link} onClick={this.onDestroy}>
+        delete
+      </a>
+    );
+  }
+
+});
+```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+import React from 'react';
+
+class DeleteLink extends React.Component {
+
+  getStyles() {
+    return {
+      link: {
+        cursor: 'pointer',
+        marginRight: '16px'
+      }
+    }
+  }
+
+  onDestroy() {
+    var tweet = this.props.tweet;
+
+    function destroyTweet() {
+      lore.actions.tweet.destroy(tweet);
+    }
+
+    lore.dialog.show(function() {
+      return lore.dialogs.tweet.destroy({
+        model: tweet,
+        onSubmit: destroyTweet
+      });
+    });
+  }
+
+  render() {
+    var styles = this.getStyles();
+
+    return (
+      <a style={styles.link} onClick={this.onDestroy}>
+        delete
+      </a>
+    );
+  }
+
+}
+
+DeleteLink.propTypes = {
+  tweet: React.PropTypes.object.isRequired
+}
+
+export default DeleteLink;
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+import React from 'react';
+
+export default class DeleteLink extends React.Component {
+
+  propTypes = {
+    tweet: React.PropTypes.object.isRequired
+  }
+
+  getStyles() {
+    return {
+      link: {
+        cursor: 'pointer',
+        marginRight: '16px'
+      }
+    }
+  }
+
+  onDestroy() {
+    var tweet = this.props.tweet;
+
+    function destroyTweet() {
+      lore.actions.tweet.destroy(tweet);
+    }
+
+    lore.dialog.show(function() {
+      return lore.dialogs.tweet.destroy({
+        model: tweet,
+        onSubmit: destroyTweet
+      });
+    });
+  }
+
+  render() {
+    var styles = this.getStyles();
+
+    return (
+      <a style={styles.link} onClick={this.onDestroy}>
+        delete
+      </a>
+    );
+  }
+
+}
+```
+{% endtab %}
+{% endtabs %}
 
 
-## Video Demonstration
-The following video provides a guided walkthrough of this step.
+### Add a Delete Link to the Tweet
+Next we want to add the delete link to each tweet. Open up the `Tweet` component and modify the render method to look
+like this:
 
-> Coming soon!
+{% tabs tab1={"name": "ES5", "id": 104} | tab2={"name": "ES6", "id": 105} | tab3={"name": "ESNext", "id": 106} %}
+{% tab id=104, is_active=true %}
+```jsx
+...
+var DeleteLink = require('./DeleteLink');
 
-## Written Steps
+...
+  render: function () {
+    ...
+    return (
+      <li className="list-group-item">
+        <div style={styles.imageContainer}>
+          <img
+            className="img-circle"
+            src={user.data.avatar}
+            style={styles.avatar}/>
+        </div>
+        <div style={styles.contentContainer}>
+          <h4 className="list-group-item-heading" style={styles.title}>
+            {user.data.nickname}
+          </h4>
+          <h4 className="list-group-item-heading" style={styles.timestamp}>
+            {'- ' + timestamp}
+          </h4>
+          <p className="list-group-item-text" style={styles.text}>
+            {tweet.data.text}
+          </p>
+          <div>
+            <EditLink tweet={tweet}/>
+            <DeleteLink tweet={tweet}/>
+          </div>
+        </div>
+      </li>
+    );
+  }
+...
+```
+{% endtab %}
+{% tab id=105 %}
+```jsx
+...
+import DeleteLink from './DeleteLink';
+...
+  render() {
+    ...
+    return (
+      <li className="list-group-item">
+        <div style={styles.imageContainer}>
+          <img
+            className="img-circle"
+            src={user.data.avatar}
+            style={styles.avatar}/>
+        </div>
+        <div style={styles.contentContainer}>
+          <h4 className="list-group-item-heading" style={styles.title}>
+            {user.data.nickname}
+          </h4>
+          <h4 className="list-group-item-heading" style={styles.timestamp}>
+            {'- ' + timestamp}
+          </h4>
+          <p className="list-group-item-text" style={styles.text}>
+            {tweet.data.text}
+          </p>
+          <div>
+            <EditLink tweet={tweet}/>
+            <DeleteLink tweet={tweet}/>
+          </div>
+        </div>
+      </li>
+    );
+  }
+...
+```
+{% endtab %}
+{% tab id=106 %}
+```jsx
+...
+import DeleteLink from './DeleteLink';
+...
+  render() {
+    ...
+    return (
+      <li className="list-group-item">
+        <div style={styles.imageContainer}>
+          <img
+            className="img-circle"
+            src={user.data.avatar}
+            style={styles.avatar}/>
+        </div>
+        <div style={styles.contentContainer}>
+          <h4 className="list-group-item-heading" style={styles.title}>
+            {user.data.nickname}
+          </h4>
+          <h4 className="list-group-item-heading" style={styles.timestamp}>
+            {'- ' + timestamp}
+          </h4>
+          <p className="list-group-item-text" style={styles.text}>
+            {tweet.data.text}
+          </p>
+          <div>
+            <EditLink tweet={tweet}/>
+            <DeleteLink tweet={tweet}/>
+          </div>
+        </div>
+      </li>
+    );
+  }
+...
+```
+{% endtab %}
+{% endtabs %}
+
+With this change in place, refresh the browser and you should see a _"delete"_ link on each of the tweets. Click this
+link and you'll be asked to confirm that you want to delete the tweet. Once you confirm, if you look at the network
+requests, you'll see a DELETE request is sent to the API to delete the tweet.
+
+> The `state` of the tweet is also changed to `DELETING`, so if this were a real application we could add an if
+> statement to detect when data was being changed and modify our UI to communicate that to the user.
+
 
 ### Visual Check-in
 
@@ -186,7 +460,7 @@ React.createClass({
 
 ## Next Steps
 
-Next we're going to learn how to implementation an authentication flow (coming soon...).
+Next we're going to [learn how to implement an authentication flow](../../authentication/overview).
 
 {% endcapture %}
 {{ markdown | markdownify }}

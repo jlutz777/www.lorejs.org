@@ -31,9 +31,9 @@ that element.
 > Why have two separate mounting targets?
 >
 > Lore renders dialogs outside the main application in order to prevent them from being nested inside other DOM
-> elements. If you nest dialogs inside other components those components may can affect the styling of your dialogs
-> (through classes applied to parent elements) or the behavior (such as parent components cancelling the click
-> events in your dialogs).
+> elements. If you nest dialogs inside other components those components can unintentionally affect the styling of
+> your dialogs (through classes applied to parent elements) or the behavior (such as parent components cancelling the
+> click events in your dialogs).
 
 ### Mounting a Component
 To demonstrate this utility, replace the `onClick` behavior of our `CreateButton` component with this code:
@@ -48,9 +48,9 @@ To demonstrate this utility, replace the `onClick` behavior of our `CreateButton
 ...
 ```
 
-Now if you refresh the browser and click the button, you should see the text "Dialog Placeholder" show up on the
-button of the screen (you may have to scroll down to see it). You can also inspect the `dialog` element to confirm
-the component was mounted in the right location.
+Now if you refresh the browser and click the button, you should see the text _"Dialog Placeholder"_ appears at the
+bottom of the screen (you may have to scroll down to see it). You can also inspect the `dialog` element to confirm
+the component was mounted within the `dialog` element.
 
 In the next section we'll replace this placeholder text with a real dialog.
 
