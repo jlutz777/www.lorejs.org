@@ -40,16 +40,24 @@ If you want to change the port the server runs on, you can do that by using an a
 If you examine the `package.json` file you'll see that `npm start` is just an alias for `node server`, and you can
 pass a `port` argument to `node server` like this:
 
-``` sh
-node server --port=3001
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
+```sh
+$ node server --port=3001
 ```
+{% endtab %}
+{% tab id=102 %}
+```sh
+$ ./node_modules/.bin/babel-node server --port=3001
+```
+{% endtab %}
+{% tab id=103 %}
+```sh
+$ ./node_modules/.bin/babel-node server --port=3001
+```
+{% endtab %}
+{% endtabs %}
 
-> **NOTE**: If you generated the project using ES6 or ESNext syntax, then you'll need to start the server using
-> `babel-node` like this:
->
-> ``` sh
-> ./node_modules/.bin/babel-node server --port=3001
-> ```
 
 ### Note
 If you are using Chrome and you see this error in the network requests you can safely ignore it.

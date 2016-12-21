@@ -7,15 +7,13 @@ permalink: /quickstart/layout/step-1/
 
 # Step 1: Add Bootstrap
 
-This quickstart is focused on demonstrating how Lore can speed up the *functional* development of React/Redux
-applications, so we're going to drop in [Bootstrap](http://getbootstrap.com) so we can avoid worrying too much about
-styling.
+In this step we're going to add [Bootstrap](http://getbootstrap.com) for some quick styling support.
 
 
 ### Install Bootstrap
 
-To use Bootstrap, you need to add the neccesary CSS and JavaScript files in `index.html`. Add the following
-stylesheet at the bottom of the `<head>` element.
+To use Bootstrap, you first need to add the necessary CSS and JavaScript files. Open up the `index.html` file at the
+root of your project and add the following stylesheet at the bottom of the `<head>` element.
 
 ```html
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -45,16 +43,12 @@ If everything went well, your application should now look like this.
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### index.html
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "Source", "id": 1} %}
 {% tab id=1, is_active=true %}
-![Tutorial](/assets/images/quickstart/diffs/layout/step-1.png)
-{% endtab %}
-{% tab id=2 %}
 ```html
 <html>
   <head>

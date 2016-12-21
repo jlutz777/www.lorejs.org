@@ -13,7 +13,9 @@ In this step we're going to layout the application and add a Header at the top o
 ### Generate the Header Component
 
 The Lore CLI includes a number of commands to create various types of project files. One of those commands is
-`generate`, and we'll be using it to generate the `Header` component. Run the following command from the CLI:
+`generate`, and we'll be using it to generate the `Header` component.
+
+Run the following command from the CLI:
 
 ```sh
 lore generate component Header
@@ -229,16 +231,12 @@ If everything went well, your application should now look like this.
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### src/components/Header.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "ES5", "id": 2} | tab2={"name": "ES6", "id": 3} | tab2={"name": "ESNext", "id": 4} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab2={"name": "ES6", "id": 2} | tab3={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/layout/step-2-header.png)
-{% endtab %}
-{% tab id=2 %}
 ```js
 var React = require('react');
 
@@ -261,12 +259,12 @@ module.exports = React.createClass({
 });
 ```
 {% endtab %}
-{% tab id=3 %}
+{% tab id=2 %}
 ```js
 // PASTE_HERE
 ```
 {% endtab %}
-{% tab id=4 %}
+{% tab id=3 %}
 ```js
 // PASTE_HERE
 ```
@@ -275,11 +273,8 @@ module.exports = React.createClass({
 
 ### src/components/Layout.js
 
-{% tabs tab1={"name": "Diff", "id": 5} | tab2={"name": "ES5", "id": 6} | tab2={"name": "ES6", "id": 7} | tab2={"name": "ESNext", "id": 8} %}
-{% tab id=5, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/layout/step-2-layout.png)
-{% endtab %}
-{% tab id=6 %}
+{% tabs tab1={"name": "ES5", "id": 4} | tab2={"name": "ES6", "id": 5} | tab3={"name": "ESNext", "id": 6} %}
+{% tab id=4, is_active=true %}
 ```js
 var React = require('react');
 var Header = require('./Header');
@@ -305,12 +300,12 @@ module.exports = React.createClass({
 });
 ```
 {% endtab %}
-{% tab id=7 %}
+{% tab id=5 %}
 ```js
 // PASTE_HERE
 ```
 {% endtab %}
-{% tab id=8 %}
+{% tab id=6 %}
 ```js
 // PASTE_HERE
 ```

@@ -17,20 +17,22 @@ Before we can fetch users, we need to create a model to represent the resource. 
 lore generate model user
 ```
 
-This will place a file called `user.js` in `src/models` and similar to when you created the `tweet` model you will
+This will place a file called `user.js` in `src/models` and, similar to when you created the `tweet` model, you will
 now have access to a set of actions and reducers for interacting with the `/users` endpoint.
 
 ### Fetch the Tweeter
 Next we need to fetch the user who said the tweet. Open up the `Tweet` component and wrap it with `connect`. But this
 time we're going to use a different string in `getState`:
 
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
 module.exports = lore.connect(function(getState, props){
   var tweet = props.tweet;
 
   return {
     user: getState('user.byId', {
-      id: tweet.data.user
+      id: tweet.data.userId
     })
   };
 })(
@@ -41,6 +43,41 @@ React.createClass({
 })
 );
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+class Tweet extends React.Component {
+  ...
+}
+
+export default lore.connect(function(getState, props){
+  var tweet = props.tweet;
+
+  return {
+    user: getState('user.byId', {
+      id: tweet.data.userId
+    })
+  };
+})(Tweet);
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+@lore.connect(function(getState, props){
+  var tweet = props.tweet;
+
+  return {
+    user: getState('user.byId', {
+      id: tweet.data.userId
+    })
+  };
+})
+export default class Tweet extends React.Component {
+  ...
+}
+```
+{% endtab %}
+{% endtabs %}
 
 The string we're passing to `getState` this time is `user.byId`. This reducer stores users by their id, and if that user
 doesn't exist in the store, it will make a server call to retrieve them. Unlike when we invoked `tweet.find` however,
@@ -56,22 +93,32 @@ Which this change in place, refresh the browser and you see the tweets attribute
 ### Visual Check-in
 If everything went well, your application should now look like this.
 
-<img class="drop-shadow" src="/assets/images/quickstart/fetching/step-6.png">
+<img class="drop-shadow" src="/assets/images/quickstart/fetching/step-5.png">
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### src/models/user.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![config](/assets/images/quickstart/diffs/fetching/step-5-user-model.png)
+```jsx
+module.exports = {
+
+};
+```
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-module.exports = {
+export default {
+
+}
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+export default {
 
 }
 ```
@@ -80,11 +127,8 @@ module.exports = {
 
 ### src/components/Tweet.js
 
-{% tabs tab1={"name": "Diff", "id": 3} | tab2={"name": "Source", "id": 4} %}
-{% tab id=3, is_active=true %}
-![config](/assets/images/quickstart/diffs/fetching/step-5-tweet.png)
-{% endtab %}
-{% tab id=4 %}
+{% tabs tab1={"name": "ES5", "id": 4} | tab2={"name": "ES6", "id": 5} | tab3={"name": "ESNext", "id": 6} %}
+{% tab id=4, is_active=true %}
 ```jsx
 var React = require('react');
 var moment = require('moment');
@@ -94,7 +138,7 @@ module.exports = lore.connect(function(getState, props){
 
   return {
     user: getState('user.byId', {
-      id: tweet.data.user
+      id: tweet.data.userId
     })
   };
 })(
@@ -104,6 +148,19 @@ React.createClass({
   propTypes: {
     tweet: React.PropTypes.object.isRequired,
     user: React.PropTypes.object.isRequired
+  },
+
+  getDefaultProps: function() {
+    return {
+      user: {
+        id: 1,
+        data: {
+          id: 1,
+          nickname: "lucca",
+          avatar: "https://cloud.githubusercontent.com/assets/2637399/19027072/a36f0c7a-88e1-11e6-931e-7f67fe01367b.png"
+        }
+      }
+    }
   },
 
   getStyles: function() {
@@ -150,7 +207,7 @@ React.createClass({
           <img
             className="img-circle"
             src={user.data.avatar}
-            style={styles.avatar}/>
+            style={styles.avatar} />
         </div>
         <div style={styles.contentContainer}>
           <h4 className="list-group-item-heading" style={styles.title}>
@@ -166,8 +223,19 @@ React.createClass({
       </li>
     );
   }
+
 })
 );
+```
+{% endtab %}
+{% tab id=5 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=6 %}
+```jsx
+// PASTE_HERE
 ```
 {% endtab %}
 {% endtabs %}

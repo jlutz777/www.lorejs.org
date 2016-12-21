@@ -26,8 +26,8 @@ user resource looks like this:
 }
 ```
 
-So just like we did with the mock tweet, we're going to create a mock user. Add a propType for `user` to the Tweet
-component and populate some data in the `getDefaultProps` method like this:
+So just like we did with the mock tweet, we're going to create a mock user. Open the `Tweet` component and add a
+propType for `user`. Then add a `getDefaultProps` method and populate it with some mock user data like this:
 
 {% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
 {% tab id=101, is_active=true %}
@@ -222,16 +222,12 @@ If everything went well, your application should now look like this.
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### src/components/Tweet.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/data/step-3-tweet.png)
-{% endtab %}
-{% tab id=2 %}
 ```jsx
 var React = require('react');
 var moment = require('moment');
@@ -301,7 +297,7 @@ module.exports = React.createClass({
           <img
             className="img-circle"
             src={user.data.avatar}
-            style={styles.avatar}/>
+            style={styles.avatar} />
         </div>
         <div style={styles.contentContainer}>
           <h4 className="list-group-item-heading" style={styles.title}>
@@ -317,10 +313,22 @@ module.exports = React.createClass({
       </li>
     );
   }
+
 });
 ```
 {% endtab %}
+{% tab id=2 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
 {% endtabs %}
+
 
 ## Next Steps
 

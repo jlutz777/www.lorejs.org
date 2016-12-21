@@ -16,13 +16,38 @@ need, and the framework will automatically retrieve it from the API if it doesn'
 
 The decorator is called `connect` and the syntax for using it looks like this:
 
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
 lore.connect(function(getState, props){
   return {
     tweets: getState('tweet.find')
   }
-})(Component);
+})(React.createClass({...}));
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+class MyComponent extends React.Component {...}
+
+lore.connect(function(getState, props){
+  return {
+    tweets: getState('tweet.find')
+  }
+})(MyComponent);
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+@lore.connect(function(getState, props){
+  return {
+    tweets: getState('tweet.find')
+  }
+})
+class MyComponent extends React.Component {...}
+```
+{% endtab %}
+{% endtabs %}
 
 > You can learn more about `connect` in the [concept documentation](/concepts/connect/) as well as the documentation
 > for [configuring connect](/features/config/connect/).
@@ -31,7 +56,7 @@ The first parameter `getState` is a function that will retrieve a piece of state
 appropriate action to fetch that data if it doesn't already exist (i.e. it hasn't been fetched from the server before).
 
 In this example, we're requesting `tweet.find`. The `find` reducer is responsible for storing the results of all query
-and pagination requests made to the server. Since we aren't passing in any query paramters or pagination information,
+and pagination requests made to the server. Since we aren't passing in any query parameters or pagination information,
 this request translates to _"make a call to the /tweets endpoint on the API and give me whatever comes back"_.
 
 That data will then be passed to our Feed component as `tweets` since that is what we named the key.
@@ -39,7 +64,7 @@ That data will then be passed to our Feed component as `tweets` since that is wh
 ### Wrap Feed with Connect
 To use `connect`, open up your `Feed` component and wrap it with the decorator like this:
 
-{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tabs tab1={"name": "ES5", "id": 104} | tab2={"name": "ES6", "id": 105} | tab3={"name": "ESNext", "id": 106} %}
 {% tab id=101, is_active=true %}
 ```jsx
 module.exports = lore.connect(function(getState, props){
@@ -53,7 +78,7 @@ React.createClass({
 );
 ```
 {% endtab %}
-{% tab id=102 %}
+{% tab id=105 %}
 ```jsx
 class Feed extends React.Component {
   ...
@@ -66,7 +91,7 @@ export default lore.connect(function(getState, props){
 })(Feed);
 ```
 {% endtab %}
-{% tab id=103 %}
+{% tab id=106 %}
 ```jsx
 @lore.connect(function(getState, props){
   return {
@@ -89,20 +114,16 @@ data from the API!
 
 If everything went well, your application should now look like this.
 
-<img class="drop-shadow" src="/assets/images/quickstart/routing/step-3.png">
+<img class="drop-shadow" src="/assets/images/quickstart/fetching/step-3.png">
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### src/components/Feed.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![Feed](/assets/images/quickstart/diffs/fetching/step-3-feed.png)
-{% endtab %}
-{% tab id=2 %}
 ```jsx
 var React = require('react');
 var Tweet = require('./Tweet');
@@ -117,6 +138,27 @@ React.createClass({
 
   propTypes: {
     tweets: React.PropTypes.object.isRequired
+  },
+
+  getDefaultProps: function() {
+    var tweet = {
+      id: 1,
+      cid: 'c1',
+      state: 'RESOLVED',
+      data: {
+        id: 1,
+        user: 1,
+        text: 'Nothing can beat science!',
+        createdAt: '2016-10-04T05:10:49.382Z'
+      }
+    };
+
+    return {
+      tweets: {
+        state: 'RESOLVED',
+        data: [tweet]
+      }
+    }
   },
 
   getStyles: function() {
@@ -151,8 +193,19 @@ React.createClass({
       </div>
     );
   }
+
 })
 );
+```
+{% endtab %}
+{% tab id=2 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+// PASTE_HERE
 ```
 {% endtab %}
 {% endtabs %}

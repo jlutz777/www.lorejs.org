@@ -29,7 +29,7 @@ provide the root url `/`.
 var Router = require('react-router');
 ...
 <Router.Link className="navbar-brand" to="/">
-  Lore Tutorial
+  Lore Quickstart
 </Router.Link>
 ```
 {% endtab %}
@@ -38,7 +38,7 @@ var Router = require('react-router');
 import { Link } from 'react-router';
 ...
 <Link className="navbar-brand" to="/">
-  Lore Tutorial
+  Lore Quickstart
 </Link>
 ```
 {% endtab %}
@@ -47,7 +47,7 @@ import { Link } from 'react-router';
 import { Link } from 'react-router';
 ...
 <Link className="navbar-brand" to="/">
-  Lore Tutorial
+  Lore Quickstart
 </Link>
 ```
 {% endtab %}
@@ -62,16 +62,12 @@ clickable link that takes the user back to the homepage.
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### src/components/Header.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "ES5", "id": 2} | tab3={"name": "ES6", "id": 3} | tab4={"name": "ESNext", "id": 4} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab2={"name": "ES6", "id": 2} | tab3={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/routing/step-2.png)
-{% endtab %}
-{% tab id=2 %}
 ```jsx
 var React = require('react');
 var Router = require('react-router');
@@ -95,7 +91,7 @@ module.exports = React.createClass({
 });
 ```
 {% endtab %}
-{% tab id=3 %}
+{% tab id=2 %}
 ```jsx
 import React from 'react';
 import { Link } from 'react-router';
@@ -117,7 +113,7 @@ export default class Header extends React.Component {
 });
 ```
 {% endtab %}
-{% tab id=4 %}
+{% tab id=3 %}
 ```jsx
 import React from 'react';
 import { Link } from 'react-router';

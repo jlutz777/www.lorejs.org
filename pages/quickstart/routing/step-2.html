@@ -136,6 +136,8 @@ Here are the changes you need to make to `routes.js`:
 {% tab id=105, is_active=true %}
 ```jsx
 ...
+var IndexRoute = require('react-router').IndexRoute;
+...
 var Feed = require('./src/components/Feed');
 
 module.exports = (
@@ -150,6 +152,8 @@ module.exports = (
 {% tab id=106 %}
 ```jsx
 ...
+import { Route, IndexRoute } from 'react-router';
+...
 import Feed from './src/components/Feed';
 
 export default (
@@ -163,6 +167,8 @@ export default (
 {% endtab %}
 {% tab id=107 %}
 ```jsx
+...
+import { Route, IndexRoute } from 'react-router';
 ...
 import Feed from './src/components/Feed';
 
@@ -197,9 +203,9 @@ Modify that code to look like this:
 </div>
 ```
 
-When we added `Feed` to `routes.js` we listed it as a child of `Layout`. This code we just pasted says "clone my
-children and render them here". With this change in place, refresh the application and you should now see "Feed"
-displayed in the middle of the page.
+> When we added `Feed` to `routes.js` we listed it as a child of `Layout`. This code we just pasted says "clone my
+> children and render them here". With this change in place, refresh the application and you should now see "Feed"
+> displayed in the middle of the page.
 
 ### Visual Check-in
 
@@ -209,16 +215,12 @@ If everything went well, your application should now look like this.
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### routes.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/routing/step-3-routes.png)
-{% endtab %}
-{% tab id=2 %}
 ```jsx
 var React = require('react');
 var Route = require('react-router').Route;
@@ -241,15 +243,56 @@ module.exports = (
 );
 ```
 {% endtab %}
+{% tab id=2 %}
+```jsx
+import React from 'react';
+import { Route, IndexRoute } from 'react-router';
+
+/**
+ * Routes are used to declare your view hierarchy
+ * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
+ */
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+import Feed from './src/components/Feed';
+
+export default (
+  <Route component={Master}>
+    <Route path="/" component={Layout}>
+      <IndexRoute component={Feed} />
+    </Route>
+  </Route>
+)
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+import React from 'react';
+import { Route, IndexRoute } from 'react-router';
+
+/**
+ * Routes are used to declare your view hierarchy
+ * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
+ */
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+import Feed from './src/components/Feed';
+
+export default (
+  <Route component={Master}>
+    <Route path="/" component={Layout}>
+      <IndexRoute component={Feed} />
+    </Route>
+  </Route>
+)
+```
+{% endtab %}
 {% endtabs %}
 
 ### src/components/Feed.js
 
-{% tabs tab1={"name": "Diff", "id": 3} | tab2={"name": "Source", "id": 4} %}
-{% tab id=3, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/routing/step-3-feed.png)
-{% endtab %}
-{% tab id=4 %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
+{% tab id=1, is_active=true %}
 ```jsx
 var React = require('react');
 
@@ -267,7 +310,7 @@ module.exports = React.createClass({
     }
   },
 
-  render: function() {
+  render: function () {
     var styles = this.getStyles();
 
     return (
@@ -281,19 +324,26 @@ module.exports = React.createClass({
       </div>
     );
   }
-
 });
+```
+{% endtab %}
+{% tab id=2 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+// PASTE_HERE
 ```
 {% endtab %}
 {% endtabs %}
 
+
 ### src/components/Layout.js
 
-{% tabs tab1={"name": "Diff", "id": 5} | tab2={"name": "Source", "id": 6} %}
-{% tab id=5, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/routing/step-3-layout.png)
-{% endtab %}
-{% tab id=6 %}
+{% tabs tab1={"name": "ES5", "id": 7} | tab2={"name": "ES6", "id": 8} | tab3={"name": "ESNext", "id": 9} %}
+{% tab id=7, is_active=true %}
 ```jsx
 /**
  * This component is intended to reflect the high level structure of your application,
@@ -325,7 +375,18 @@ module.exports = React.createClass({
 });
 ```
 {% endtab %}
+{% tab id=8 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=9 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
 {% endtabs %}
+
 
 ## Next Steps
 

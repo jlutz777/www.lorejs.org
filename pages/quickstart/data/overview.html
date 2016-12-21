@@ -13,8 +13,8 @@ the end of this section your application will look like this:
 <img class="drop-shadow" src="/assets/images/quickstart/data/step-3.png">
 
 ### Lore's Data Structure
-Lore has a very particular structure it uses to represent data in your application. To illustrate, take a look at this
-example `Tweet` component. It expects to recieve a prop called `tweet` and then renders the `tweet` data:
+Lore has a particular structure it uses to represent data in your application. To illustrate, take a look at this
+example `Tweet` component. It expects to receive a prop called `tweet` and then renders the `tweet` data:
 
 {% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
 {% tab id=101, is_active=true %}
@@ -124,7 +124,7 @@ For endpoints that return a list of resources, such as `/tweets`, Lore use's a s
 ```
 
 Here `data` is an array that contains the individual resources in the server response (each wrapped in the structure
-above) and then provides metadata about the list such as the query was sent to the server and what the state of that
+above) and then provides metadata about the list such as what query was made to the API and what the state of that
 query is (typically whether the data is still being fetched or the query has been resolved).
 
 

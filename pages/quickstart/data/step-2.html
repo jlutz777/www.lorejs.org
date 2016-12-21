@@ -534,16 +534,12 @@ If everything went well, your application should now look like this.
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### src/components/Feed.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/data/step-2-feed.png)
-{% endtab %}
-{% tab id=2 %}
 ```jsx
 var React = require('react');
 var Tweet = require('./Tweet');
@@ -557,18 +553,20 @@ module.exports = React.createClass({
 
   getDefaultProps: function() {
     var tweet = {
-      id: 1343,
+      id: 1,
+      cid: 'c1',
+      state: 'RESOLVED',
       data: {
-        id: 1343,
-        user: 204,
-        text: "Nothing can beat science!",
-        createdAt: "2016-10-28T08:47:26.146Z",
-        updatedAt: "2016-10-30T08:47:26.279Z"
+        id: 1,
+        user: 1,
+        text: 'Nothing can beat science!',
+        createdAt: '2016-10-04T05:10:49.382Z'
       }
     };
 
     return {
       tweets: {
+        state: 'RESOLVED',
         data: [tweet]
       }
     }
@@ -606,18 +604,27 @@ module.exports = React.createClass({
       </div>
     );
   }
+
 });
+```
+{% endtab %}
+{% tab id=2 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+// PASTE_HERE
 ```
 {% endtab %}
 {% endtabs %}
 
+
 ### src/components/Tweet.js
 
-{% tabs tab1={"name": "Diff", "id": 3} | tab2={"name": "Source", "id": 4} %}
-{% tab id=3, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/data/step-2-tweet.png)
-{% endtab %}
-{% tab id=4 %}
+{% tabs tab1={"name": "ES5", "id": 4} | tab2={"name": "ES6", "id": 5} | tab3={"name": "ESNext", "id": 6} %}
+{% tab id=4, is_active=true %}
 ```jsx
 var React = require('react');
 var moment = require('moment');
@@ -672,7 +679,7 @@ module.exports = React.createClass({
           <img
             className="img-circle"
             src={'http://ssl.gstatic.com/images/icons/material/product/1x/avatar_circle_blue_120dp.png'}
-            style={styles.avatar}/>
+            style={styles.avatar} />
         </div>
         <div style={styles.contentContainer}>
           <h4 className="list-group-item-heading" style={styles.title}>
@@ -688,7 +695,18 @@ module.exports = React.createClass({
       </li>
     );
   }
+
 });
+```
+{% endtab %}
+{% tab id=5 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=6 %}
+```jsx
+// PASTE_HERE
 ```
 {% endtab %}
 {% endtabs %}

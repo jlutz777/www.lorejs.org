@@ -14,17 +14,27 @@ In this step we're going to set the location of the API server.
 At the root of your project you should see a folder called `config`. This folder exposes all of the controls you can
 use to tailor Lore's behavior to your applications needs.
 
-Navigate into this folder and open a file called `connections.js`. Toward the top of this file you will see a
-commented out line that looks like this:
+Navigate into this folder and open a file called `connections.js`.
+
+Toward the top of this file you will see a commented out line that looks like this:
 
 ```js
 ...
-  // apiRoot: 'https://api.example.com',
+  default: {
+
+    // apiRoot: 'https://api.example.com',
+
+    ...
+  }
 ...
 ```
 
+> Lore is designed to interact with multiple API endpoints. The config settings for each API is called a `connection`.
+> New projects begin configured for a single API, and this connection is named `default`.
+
 You'll see commented out sections like this in all of the config files, and they represent the built-in defaults that
 Lore uses. In this case, Lore assumes your API is located at `https://api.example.com`, which is obviously not true.
+
 Tell Lore where the API is located by uncommenting that line and change it to the following:
 
 ```js
@@ -53,23 +63,40 @@ If everything went well, your application should now look like this. Exactly the
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
-### config/models.js
+### config/connections.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/fetching/step-1-config-models.png)
-{% endtab %}
-{% tab id=2 %}
-```js
+```jsx
 module.exports = {
-  apiRoot: 'http://localhost:1337'
+  default: {
+    apiRoot: 'http://localhost:1337'
+  }
 };
 ```
 {% endtab %}
+{% tab id=2 %}
+```jsx
+export default {
+  default: {
+    apiRoot: 'http://localhost:1337'
+  }
+}
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+export default {
+  default: {
+    apiRoot: 'http://localhost:1337'
+  }
+}
+```
+{% endtab %}
 {% endtabs %}
+
 
 ## Next Steps
 

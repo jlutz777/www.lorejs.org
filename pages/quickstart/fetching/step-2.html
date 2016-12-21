@@ -36,20 +36,30 @@ If everything went well, your application should now look like this. Still the s
 
 ## Code Changes
 
-Below is a list of files modified during this step, as well as a visual diff to show you what was added or removed
-between this step and the last one.
+Below is a list of files modified during this step.
 
 ### src/models/tweet.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/diffs/fetching/step-2-tweet-model.png)
-{% endtab %}
-{% tab id=2 %}
-```js
+```jsx
 module.exports = {
 
 };
+```
+{% endtab %}
+{% tab id=2 %}
+```jsx
+export default {
+
+}
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+export default {
+
+}
 ```
 {% endtab %}
 {% endtabs %}

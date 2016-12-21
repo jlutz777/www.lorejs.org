@@ -10,9 +10,23 @@ permalink: /quickstart/setup/step-2/
 To create a new application, type `lore new` into the command line followed the by name of your application. For this
 example we are going to call our application `lore-quickstart`.
 
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```sh
 $ lore new lore-quickstart
 ```
+{% endtab %}
+{% tab id=102 %}
+```sh
+$ lore new lore-quickstart --es6
+```
+{% endtab %}
+{% tab id=103 %}
+```sh
+$ lore new lore-quickstart --esnext
+```
+{% endtab %}
+{% endtabs %}
 
 This will create a new directory called `lore-quickstart`, and place all the application files inside. You should see
 this message when the task completes.
@@ -21,27 +35,10 @@ this message when the task completes.
   info:  Created a new Lore application `lore-quickstart`
 ```
 
-### Optional: Create an ES6 and ESNext version of the app
-
-Lore currently defaults to creating a project using ES5 syntax. If you'd prefer to use ES6, you can change the default
-by passing in an optional command line argument:
-
-```sh
-$ lore new lore-quickstart --es6
-```
-
-If you'd prefer to use cutting-room floor features in ESNext (such as decorators and static property types), you can
-generate a project using that syntax by passing in `--esnext` like this:
-
-```sh
-$ lore new lore-quickstart --esnext
-```
-
-In addition to changing the syntax of the initial project files, passing in either of these options will also set the
-`language` property in the `.lorerc` file (located at the root of the project) to your preference.
-
-This property serves as a way to declare your language preference to the CLI. Any files you generate for this project
-from this point on will be created using that preference.
+> When you create an application using the --es6 or --exnext flags, your language preference is recorded to the
+> `language` property in the `.lorerc` file at the root of the project. The CLI examines this property before
+> executing commands, which means this is the only time you'll need to declare the JavaScript version. Any files you
+> generate from this point forward will be created using your preference automatically.
 
 ### Install Dependencies
 
