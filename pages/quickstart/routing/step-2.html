@@ -5,7 +5,7 @@ permalink: /quickstart/routing/step-2/
 
 {% capture markdown %}
 
-# Step 3: Add Feed to Routes
+# Step 2: Add Feed to Routes
 
 In this step we're going to create a Feed component to display the tweets and add it to the routes.
 
@@ -57,9 +57,9 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=102 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class Feed extends React.Component {
+class Feed extends Component {
 
   getStyles() {
     return {
@@ -87,13 +87,15 @@ export default class Feed extends React.Component {
     );
   }
 }
+
+export default Feed;
 ```
 {% endtab %}
 {% tab id=103 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class Feed extends React.Component {
+class Feed extends Component {
 
   getStyles() {
     return {
@@ -121,6 +123,8 @@ export default class Feed extends React.Component {
     );
   }
 }
+
+export default Feed;
 ```
 {% endtab %}
 {% endtabs %}
@@ -133,7 +137,7 @@ is dispalyed to the Feed.
 Here are the changes you need to make to `routes.js`:
 
 {% tabs tab1={"name": "ES5", "id": 104} | tab2={"name": "ES6", "id": 105} | tab3={"name": "ESNext", "id": 106} %}
-{% tab id=105, is_active=true %}
+{% tab id=104, is_active=true %}
 ```jsx
 ...
 var IndexRoute = require('react-router').IndexRoute;
@@ -149,10 +153,8 @@ module.exports = (
 );
 ```
 {% endtab %}
-{% tab id=106 %}
+{% tab id=105 %}
 ```jsx
-...
-import { Route, IndexRoute } from 'react-router';
 ...
 import Feed from './src/components/Feed';
 
@@ -165,10 +167,8 @@ export default (
 )
 ```
 {% endtab %}
-{% tab id=107 %}
+{% tab id=106 %}
 ```jsx
-...
-import { Route, IndexRoute } from 'react-router';
 ...
 import Feed from './src/components/Feed';
 
@@ -217,78 +217,6 @@ If everything went well, your application should now look like this.
 
 Below is a list of files modified during this step.
 
-### routes.js
-
-{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
-{% tab id=1, is_active=true %}
-```jsx
-var React = require('react');
-var Route = require('react-router').Route;
-var IndexRoute = require('react-router').IndexRoute;
-
-/**
- * Routes are used to declare your view hierarchy
- * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
- */
-var Master = require('./src/components/Master');
-var Layout = require('./src/components/Layout');
-var Feed = require('./src/components/Feed');
-
-module.exports = (
-  <Route component={Master}>
-    <Route path="/" component={Layout}>
-      <IndexRoute component={Feed} />
-    </Route>
-  </Route>
-);
-```
-{% endtab %}
-{% tab id=2 %}
-```jsx
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-
-/**
- * Routes are used to declare your view hierarchy
- * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
- */
-import Master from './src/components/Master';
-import Layout from './src/components/Layout';
-import Feed from './src/components/Feed';
-
-export default (
-  <Route component={Master}>
-    <Route path="/" component={Layout}>
-      <IndexRoute component={Feed} />
-    </Route>
-  </Route>
-)
-```
-{% endtab %}
-{% tab id=3 %}
-```jsx
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-
-/**
- * Routes are used to declare your view hierarchy
- * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
- */
-import Master from './src/components/Master';
-import Layout from './src/components/Layout';
-import Feed from './src/components/Feed';
-
-export default (
-  <Route component={Master}>
-    <Route path="/" component={Layout}>
-      <IndexRoute component={Feed} />
-    </Route>
-  </Route>
-)
-```
-{% endtab %}
-{% endtabs %}
-
 ### src/components/Feed.js
 
 {% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
@@ -329,12 +257,116 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+
+class Feed extends Component {
+
+  getStyles() {
+    return {
+      title: {
+        textAlign: 'center'
+      },
+      tweets: {
+        marginTop: '32px'
+      }
+    }
+  }
+
+  render() {
+    var styles = this.getStyles();
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {/* Tweets */}
+        </ul>
+      </div>
+    );
+  }
+}
+
+export default Feed;
 ```
 {% endtab %}
 {% tab id=3 %}
 ```jsx
 // PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
+
+
+### routes.js
+
+{% tabs tab1={"name": "ES5", "id": 4} | tab3={"name": "ES6", "id": 5} | tab4={"name": "ESNext", "id": 6} %}
+{% tab id=4, is_active=true %}
+```jsx
+var React = require('react');
+var Route = require('react-router').Route;
+var IndexRoute = require('react-router').IndexRoute;
+
+/**
+ * Routes are used to declare your view hierarchy
+ * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
+ */
+var Master = require('./src/components/Master');
+var Layout = require('./src/components/Layout');
+var Feed = require('./src/components/Feed');
+
+module.exports = (
+  <Route component={Master}>
+    <Route path="/" component={Layout}>
+      <IndexRoute component={Feed} />
+    </Route>
+  </Route>
+);
+```
+{% endtab %}
+{% tab id=5 %}
+```jsx
+import React from 'react';
+import { Route, IndexRoute, Redirect } from 'react-router';
+
+/**
+ * Routes are used to declare your view hierarchy
+ * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
+ */
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+import Feed from './src/components/Feed';
+
+export default (
+  <Route component={Master}>
+    <Route path="/" component={Layout}>
+      <IndexRoute component={Feed} />
+    </Route>
+  </Route>
+)
+```
+{% endtab %}
+{% tab id=6 %}
+```jsx
+import React from 'react';
+import { Route, IndexRoute } from 'react-router';
+
+/**
+ * Routes are used to declare your view hierarchy
+ * See: https://github.com/ReactTraining/react-router/blob/master/docs/API.md
+ */
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+import Feed from './src/components/Feed';
+
+export default (
+  <Route component={Master}>
+    <Route path="/" component={Layout}>
+      <IndexRoute component={Feed} />
+    </Route>
+  </Route>
+)
 ```
 {% endtab %}
 {% endtabs %}
@@ -377,12 +409,68 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=8 %}
 ```jsx
-// PASTE_HERE
+/**
+ * This component is intended to reflect the high level structure of your application,
+ * and render any components that are common across all views, such as the header or
+ * top-level navigation. All other components should be rendered by route handlers.
+ **/
+
+import React, { Component, PropTypes } from 'react';
+import Header from './Header';
+
+class Layout extends Component {
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-offset-3 col-md-6">
+              {/* Feed will go here */}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+}
+
+export default Layout;
 ```
 {% endtab %}
 {% tab id=9 %}
 ```jsx
-// PASTE_HERE
+/**
+ * This component is intended to reflect the high level structure of your application,
+ * and render any components that are common across all views, such as the header or
+ * top-level navigation. All other components should be rendered by route handlers.
+ **/
+
+import React, { Component, PropTypes } from 'react';
+import Header from './Header';
+
+class Layout extends Component {
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-offset-3 col-md-6">
+              {/* Feed will go here */}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+}
+
+export default Layout;
 ```
 {% endtab %}
 {% endtabs %}

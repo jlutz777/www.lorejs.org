@@ -5,7 +5,7 @@ permalink: /quickstart/routing/step-1/
 
 {% capture markdown %}
 
-# Step 2: Convert Header Title to Link
+# Step 1: Convert Header Title to Link
 
 In this step we'll use `react-router` to convert the title in the header to a clickable link that will always take the
 user back to the homepage. We won't make use of the functionality in this quickstart, but it's a good practice to follow.
@@ -14,7 +14,7 @@ user back to the homepage. We won't make use of the functionality in this quicks
 ### Update the Header
 Open the `Header` component and find this line:
 
-```jsx
+```html
 <div className="navbar-brand">
   Lore Quickstart
 </div>
@@ -93,10 +93,10 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-export default class Header extends React.Component {
+class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-default navbar-static-top">
@@ -110,15 +110,18 @@ export default class Header extends React.Component {
       </nav>
     );
   }
-});
+}
+
+export default Header;
 ```
 {% endtab %}
 {% tab id=3 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-export default class Header extends React.Component {
+class Header extends Component {
+
   render() {
     return (
       <nav className="navbar navbar-default navbar-static-top">
@@ -132,7 +135,10 @@ export default class Header extends React.Component {
       </nav>
     );
   }
-});
+
+}
+
+export default Header;
 ```
 {% endtab %}
 {% endtabs %}

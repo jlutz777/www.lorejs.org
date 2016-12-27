@@ -95,9 +95,9 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=102 %}
 ```jsx
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-class Tweet extends React.Component {
+class Tweet extends Component {
 
   getStyles() {
     return {
@@ -160,7 +160,7 @@ class Tweet extends React.Component {
 }
 
 Tweet.propTypes = {
-  tweet: React.PropTypes.object.isRequired
+  tweet: PropTypes.object.isRequired
 }
 
 export default Tweet;
@@ -168,73 +168,7 @@ export default Tweet;
 {% endtab %}
 {% tab id=103 %}
 ```jsx
-import React from 'react';
-
-export default class Tweet extends React.Component {
-
-  static propTypes = {
-    tweet: React.PropTypes.object.isRequired
-  }
-
-  getStyles() {
-    return {
-      avatar: {
-        width: '32px',
-        border: '1px solid gray'
-      },
-      imageContainer: {
-        display: 'inline-block',
-        verticalAlign: 'top',
-        width: '32px'
-      },
-      contentContainer: {
-        display: 'inline-block',
-        marginLeft: '8px',
-        maxWidth: '85%'
-      },
-      title: {
-        lineHeight: '32px',
-        display: 'inline-block'
-      },
-      text: {
-        marginBottom: '5px'
-      },
-      timestamp: {
-        display: 'inline-block',
-        marginLeft: '8px',
-        color: '#999',
-        fontSize: '14px'
-      }
-    }
-  }
-
-  render() {
-    const styles = this.getStyles();
-    const tweet = this.props.tweet;
-
-    return (
-      <li className="list-group-item">
-        <div style={styles.imageContainer}>
-          <img
-            className="img-circle"
-            src={'http://ssl.gstatic.com/images/icons/material/product/1x/avatar_circle_blue_120dp.png'}
-            style={styles.avatar} />
-        </div>
-        <div style={styles.contentContainer}>
-          <h4 className="list-group-item-heading" style={styles.title}>
-            Nickname
-          </h4>
-          <h4 className="list-group-item-heading" style={styles.timestamp}>
-            {'- Timestamp'}
-          </h4>
-          <p className="list-group-item-text" style={styles.text}>
-            {'This is a quote from Chrono Trigger.'}
-          </p>
-        </div>
-      </li>
-    );
-  }
-}
+// PASTE HERE
 ```
 {% endtab %}
 {% endtabs %}
@@ -536,95 +470,10 @@ If everything went well, your application should now look like this.
 
 Below is a list of files modified during this step.
 
-### src/components/Feed.js
-
-{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
-{% tab id=1, is_active=true %}
-```jsx
-var React = require('react');
-var Tweet = require('./Tweet');
-
-module.exports = React.createClass({
-  displayName: 'Feed',
-
-  propTypes: {
-    tweets: React.PropTypes.object.isRequired
-  },
-
-  getDefaultProps: function() {
-    var tweet = {
-      id: 1,
-      cid: 'c1',
-      state: 'RESOLVED',
-      data: {
-        id: 1,
-        user: 1,
-        text: 'Nothing can beat science!',
-        createdAt: '2016-10-04T05:10:49.382Z'
-      }
-    };
-
-    return {
-      tweets: {
-        state: 'RESOLVED',
-        data: [tweet]
-      }
-    }
-  },
-
-  getStyles: function() {
-    return {
-      title: {
-        textAlign: 'center'
-      },
-      tweets: {
-        marginTop: '32px'
-      }
-    }
-  },
-
-  renderTweet: function(tweet) {
-    return (
-      <Tweet key={tweet.id} tweet={tweet} />
-    );
-  },
-
-  render: function () {
-    var styles = this.getStyles();
-    var tweets = this.props.tweets;
-
-    return (
-      <div>
-        <h2 style={styles.title}>
-          Feed
-        </h2>
-        <ul className="media-list" style={styles.tweets}>
-          {tweets.data.map(this.renderTweet)}
-        </ul>
-      </div>
-    );
-  }
-
-});
-```
-{% endtab %}
-{% tab id=2 %}
-```jsx
-// PASTE_HERE
-```
-{% endtab %}
-{% tab id=3 %}
-```jsx
-// PASTE_HERE
-```
-{% endtab %}
-{% endtabs %}
-
-
 ### src/components/Tweet.js
 
-{% tabs tab1={"name": "ES5", "id": 4} | tab2={"name": "ES6", "id": 5} | tab3={"name": "ESNext", "id": 6} %}
-{% tab id=4, is_active=true %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab2={"name": "ES6", "id": 2} | tab3={"name": "ESNext", "id": 3} %}
+{% tab id=1, is_active=true %}
 ```jsx
 var React = require('react');
 var moment = require('moment');
@@ -699,9 +548,228 @@ module.exports = React.createClass({
 });
 ```
 {% endtab %}
-{% tab id=5 %}
+{% tab id=2 %}
+```jsx
+import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
+
+class Tweet extends Component {
+
+  getStyles() {
+    return {
+      avatar: {
+        width: '32px',
+        border: '1px solid gray'
+      },
+      imageContainer: {
+        display: 'inline-block',
+        verticalAlign: 'top',
+        width: '32px'
+      },
+      contentContainer: {
+        display: 'inline-block',
+        marginLeft: '8px',
+        maxWidth: '85%'
+      },
+      title: {
+        lineHeight: '32px',
+        display: 'inline-block'
+      },
+      text: {
+        marginBottom: '5px'
+      },
+      timestamp: {
+        display: 'inline-block',
+        marginLeft: '8px',
+        color: '#999',
+        fontSize: '14px'
+      }
+    }
+  }
+
+  render() {
+    const styles = this.getStyles();
+    const tweet = this.props.tweet;
+    const timestamp = moment(tweet.data.createdAt).fromNow().split(' ago')[0];
+
+    return (
+      <li className="list-group-item">
+        <div style={styles.imageContainer}>
+          <img
+            className="img-circle"
+            src={'http://ssl.gstatic.com/images/icons/material/product/1x/avatar_circle_blue_120dp.png'}
+            style={styles.avatar} />
+        </div>
+        <div style={styles.contentContainer}>
+          <h4 className="list-group-item-heading" style={styles.title}>
+            Nickname
+          </h4>
+          <h4 className="list-group-item-heading" style={styles.timestamp}>
+            {'- ' + timestamp}
+          </h4>
+          <p className="list-group-item-text" style={styles.text}>
+            {tweet.data.text}
+          </p>
+        </div>
+      </li>
+    );
+  }
+}
+
+Tweet.propTypes = {
+  tweet: PropTypes.object.isRequired
+};
+
+export default Tweet;
+```
+{% endtab %}
+{% tab id=3 %}
 ```jsx
 // PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
+
+
+### src/components/Feed.js
+
+{% tabs tab1={"name": "ES5", "id": 4} | tab3={"name": "ES6", "id": 5} | tab4={"name": "ESNext", "id": 6} %}
+{% tab id=4, is_active=true %}
+```jsx
+var React = require('react');
+var Tweet = require('./Tweet');
+
+module.exports = React.createClass({
+  displayName: 'Feed',
+
+  propTypes: {
+    tweets: React.PropTypes.object.isRequired
+  },
+
+  getDefaultProps: function() {
+    var tweet = {
+      id: 1,
+      cid: 'c1',
+      state: 'RESOLVED',
+      data: {
+        id: 1,
+        user: 1,
+        text: 'Nothing can beat science!',
+        createdAt: '2016-10-04T05:10:49.382Z'
+      }
+    };
+
+    return {
+      tweets: {
+        state: 'RESOLVED',
+        data: [tweet]
+      }
+    }
+  },
+
+  getStyles: function() {
+    return {
+      title: {
+        textAlign: 'center'
+      },
+      tweets: {
+        marginTop: '32px'
+      }
+    }
+  },
+
+  renderTweet: function(tweet) {
+    return (
+      <Tweet key={tweet.id} tweet={tweet} />
+    );
+  },
+
+  render: function () {
+    var styles = this.getStyles();
+    var tweets = this.props.tweets;
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+
+});
+```
+{% endtab %}
+{% tab id=5 %}
+```jsx
+import React, { Component, PropTypes } from 'react';
+import Tweet from './Tweet';
+
+class Feed extends Component {
+
+  getStyles() {
+    return {
+      title: {
+        textAlign: 'center'
+      },
+      tweets: {
+        marginTop: '32px'
+      }
+    }
+  }
+
+  renderTweet(tweet) {
+    return (
+      <Tweet key={tweet.id} tweet={tweet} />
+    );
+  }
+
+  render() {
+    const styles = this.getStyles();
+    const tweets = this.props.tweets;
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+}
+
+Feed.propTypes = {
+  tweets: PropTypes.object.isRequired
+};
+
+Feed.defaultProps = (function() {
+  const tweet = {
+    id: 1,
+    cid: 'c1',
+    state: 'RESOLVED',
+    data: {
+      id: 1,
+      user: 1,
+      text: 'Nothing can beat science!',
+      createdAt: '2016-10-04T05:10:49.382Z'
+    }
+  };
+
+  return {
+    tweets: {
+      state: 'RESOLVED',
+      data: [tweet]
+    }
+  }
+})();
+
+export default Feed;
 ```
 {% endtab %}
 {% tab id=6 %}

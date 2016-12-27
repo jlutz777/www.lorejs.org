@@ -16,7 +16,7 @@ data for our tweet, you'll notice it includes a property called `userId` that ha
 represents the id of the user the tweet belongs to. Taking a look at the API endpoint for `/users` we can see that a
 user resource looks like this:
 
-```js
+```jsx
 {
   id: 1,
   nickname: "lucca",
@@ -55,27 +55,25 @@ propType for `user`. Then add a `getDefaultProps` method and populate it with so
 {% endtab %}
 {% tab id=102 %}
 ```jsx
-class Tweet extends React.Component {
-  ...
-  getDefaultProps() {
-    return {
-      user: {
-        id: 1,
-        data: {
-          id: 1,
-          nickname: "lucca",
-          avatar: "https://cloud.githubusercontent.com/assets/2637399/19027072/a36f0c7a-88e1-11e6-931e-7f67fe01367b.png"
-        }
-      }
-    }
-  }
+class Tweet extends Component {
   ...
 }
 
 Tweet.propTypes: {
   tweet: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired
-}
+};
+
+Tweet.defaultProps = {
+  user: {
+    id: 1,
+    data: {
+      id: 1,
+      nickname: "lucca",
+      avatar: "https://cloud.githubusercontent.com/assets/2637399/19027072/a36f0c7a-88e1-11e6-931e-7f67fe01367b.png"
+    }
+  }
+};
 ```
 {% endtab %}
 {% tab id=103 %}
@@ -87,18 +85,17 @@ export default class Tweet extends React.Component {
     user: React.PropTypes.object.isRequired
   }
 
-  getDefaultProps() {
-    return {
-      user: {
+  static defaultProps = {
+    user: {
+      id: 1,
+      data: {
         id: 1,
-        data: {
-          id: 1,
-          nickname: "lucca",
-          avatar: "https://cloud.githubusercontent.com/assets/2637399/19027072/a36f0c7a-88e1-11e6-931e-7f67fe01367b.png"
-        }
+        nickname: "lucca",
+        avatar: "https://cloud.githubusercontent.com/assets/2637399/19027072/a36f0c7a-88e1-11e6-931e-7f67fe01367b.png"
       }
     }
   }
+
   ...
 }
 ```
@@ -319,7 +316,90 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
+
+class Tweet extends Component {
+
+  getStyles() {
+    return {
+      avatar: {
+        width: '32px',
+        border: '1px solid gray'
+      },
+      imageContainer: {
+        display: 'inline-block',
+        verticalAlign: 'top',
+        width: '32px'
+      },
+      contentContainer: {
+        display: 'inline-block',
+        marginLeft: '8px',
+        maxWidth: '85%'
+      },
+      title: {
+        lineHeight: '32px',
+        display: 'inline-block'
+      },
+      text: {
+        marginBottom: '5px'
+      },
+      timestamp: {
+        display: 'inline-block',
+        marginLeft: '8px',
+        color: '#999',
+        fontSize: '14px'
+      }
+    }
+  }
+
+  render() {
+    const styles = this.getStyles();
+    const tweet = this.props.tweet;
+    const user = this.props.user;
+    const timestamp = moment(tweet.data.createdAt).fromNow().split(' ago')[0];
+
+    return (
+      <li className="list-group-item">
+        <div style={styles.imageContainer}>
+          <img
+            className="img-circle"
+            src={user.data.avatar}
+            style={styles.avatar} />
+        </div>
+        <div style={styles.contentContainer}>
+          <h4 className="list-group-item-heading" style={styles.title}>
+            {user.data.nickname}
+          </h4>
+          <h4 className="list-group-item-heading" style={styles.timestamp}>
+            {'- ' + timestamp}
+          </h4>
+          <p className="list-group-item-text" style={styles.text}>
+            {tweet.data.text}
+          </p>
+        </div>
+      </li>
+    );
+  }
+}
+
+Tweet.propTypes = {
+  tweet: PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired
+};
+
+Tweet.defaultProps = {
+  user: {
+    id: 1,
+    data: {
+      id: 1,
+      nickname: "lucca",
+      avatar: "https://cloud.githubusercontent.com/assets/2637399/19027072/a36f0c7a-88e1-11e6-931e-7f67fe01367b.png"
+    }
+  }
+};
+
+export default Tweet;
 ```
 {% endtab %}
 {% tab id=3 %}

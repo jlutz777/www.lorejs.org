@@ -31,21 +31,21 @@ var Feed = React.createClass({
 {% endtab %}
 {% tab id=102 %}
 ```jsx
-let Feed = React.Component {
+class Feed extends Component {
   ...
 }
 
 Feed.propTypes ={
-  tweets: React.PropTypes.object.isRequired
+  tweets: PropTypes.object.isRequired
 };
 ```
 {% endtab %}
 {% tab id=103 %}
 ```jsx
-export default class Feed extends React.Component {
+class Feed extends React.Component {
 
   static propTypes = {
-    tweets: React.PropTypes.object.isRequired
+    tweets: PropTypes.object.isRequired
   }
   ...
 }
@@ -92,9 +92,11 @@ var Feed = React.createClass({
 {% endtab %}
 {% tab id=105 %}
 ```jsx
-let Feed = React.Component {
+class Feed extends Component {
   ...
 }
+
+...
 
 Feed.defaultProps = function() {
   const tweet = {
@@ -115,12 +117,12 @@ Feed.defaultProps = function() {
       data: [tweet]
     }
   }
-}
+};
 ```
 {% endtab %}
 {% tab id=106 %}
 ```jsx
-export default class Feed extends React.Component {
+class Feed extends Component {
 
   static defaultProps = function() {
     const tweet = {
@@ -221,7 +223,7 @@ Add the following code to your `Feed` component.
         {tweet.data.text}
       </li>
     );
-  },
+  }
 
   render() {
     const styles = this.getStyles();
@@ -250,7 +252,7 @@ Add the following code to your `Feed` component.
         {tweet.data.text}
       </li>
     );
-  },
+  }
 
   render() {
     const styles = this.getStyles();
@@ -368,7 +370,72 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+
+class Feed extends Component {
+
+  getStyles() {
+    return {
+      title: {
+        textAlign: 'center'
+      },
+      tweets: {
+        marginTop: '32px'
+      }
+    }
+  }
+
+  renderTweet(tweet) {
+    return (
+      <li key={tweet.id}>
+        {tweet.data.text}
+      </li>
+    );
+  }
+
+  render() {
+    const styles = this.getStyles();
+    const tweets = this.props.tweets;
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+}
+
+Feed.propTypes = {
+  tweets: PropTypes.object.isRequired
+};
+
+Feed.defaultProps = (function() {
+  const tweet = {
+    id: 1,
+    cid: 'c1',
+    state: 'RESOLVED',
+    data: {
+      id: 1,
+      user: 1,
+      text: 'Nothing can beat science!',
+      createdAt: '2016-10-04T05:10:49.382Z'
+    }
+  };
+
+  return {
+    tweets: {
+      state: 'RESOLVED',
+      data: [tweet]
+    }
+  }
+})();
+
+export default Feed;
 ```
 {% endtab %}
 {% tab id=3 %}
