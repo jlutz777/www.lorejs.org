@@ -13,6 +13,8 @@ In this step we're going to save the user token in local storage and redirect th
 Open up the `Login` component. Import the `src/utils/auth` utility and update the `onAuthentication` callback to look
 like this:
 
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
 var auth = require('../utils/auth');
 ...
@@ -21,6 +23,18 @@ var auth = require('../utils/auth');
   },
 ...
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
 
 With this change in place, whenever the user logs in we will save the idToken provided by Auth0 to localStorage.
 
@@ -29,20 +43,49 @@ With the token saved to localStorage, we can now redirect the user back to the a
 now exists) it won't redirect us back. Update the `onAuthentication` method to look like this (router is provided as a
 prop by React Router):
 
+{% tabs tab1={"name": "ES5", "id": 104} | tab2={"name": "ES6", "id": 105} | tab3={"name": "ESNext", "id": 106} %}
+{% tab id=104, is_active=true %}
 ```jsx
   onAuthentication: function(authResult) {
     auth.saveToken(authResult.idToken);
     this.props.router.push('/');
   },
 ```
+{% endtab %}
+{% tab id=105 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=106 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
 
 Finally, add a `componentWillUnmount` method to hide the lock when the `Login` component is unmounted:
 
+{% tabs tab1={"name": "ES5", "id": 107} | tab2={"name": "ES6", "id": 108} | tab3={"name": "ESNext", "id": 109} %}
+{% tab id=107, is_active=true %}
 ```jsx
   componentWillUnmount: function() {
     this.lock.hide();
   },
 ```
+{% endtab %}
+{% tab id=108 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=109 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
+
 
 With that change in place, refresh the browser and navigate to `/login`. Once you login in, the application will
 redirect you to the `/` route and transition the login dialog off the page. Pretty neat!
@@ -53,73 +96,56 @@ If everything went well, your application should now look like this.
 
 ![New Lore App](/assets/images/quickstart/step2-visual.png)
 
+
 ## Code Changes
 
 Below is a list of files modified during this step.
 
 ### src/components/Login.js
 
-{% tabs tab1={"name": "Diff", "id": 1} | tab2={"name": "Source", "id": 2} %}
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
 {% tab id=1, is_active=true %}
-![New Lore App](/assets/images/quickstart/step2-diff-header.png)
-{% endtab %}
-{% tab id=2 %}
-```js
+```jsx
 var React = require('react');
 var Auth0Lock = require('auth0-lock').default;
-var auth = require('../auth');
-var Router = require('react-router');
-var lock = null;
+var auth = require('../utils/auth');
 
-module.exports = Router.withRouter(React.createClass({
+module.exports = React.createClass({
   displayName: 'Login',
 
   componentDidMount: function() {
+    this.lock = this.getLock();
     this.showLogin();
   },
 
   componentWillUnmount: function() {
-    var lock = this.getLock();
-    lock.hide();
+    this.lock.hide();
   },
 
   getLock: function(){
     var clientId = lore.config.auth0.clientId;
     var domain = lore.config.auth0.domain;
 
-    // Because the lock injects elements into the DOM outside the control of
-    // React, we should treat it as a singleton in order to prevent visual
-    // side-effects where multiple background overlays can appear if you navigate
-    // to /login multiple times without refreshing the browser in between.
-    if(!lock) {
-      lock = new Auth0Lock(clientId, domain, {
-        auth: {
-          redirect: false,
-          sso: false,
-          params: {scope: 'openid name email'}
-        },
-        languageDictionary: {
-          title: "Lore Tutorial"
-        }
-      });
-    }
-
-    return lock;
-  },
-
-  navigateBackToApp: function() {
-    this.props.router.push('/');
+    return new Auth0Lock(clientId, domain, {
+      auth: {
+        redirect: false,
+        sso: false,
+        params: {scope: 'openid name email'}
+      },
+      languageDictionary: {
+        title: "Lore Quickstart"
+      }
+    });
   },
 
   onAuthentication: function(authResult) {
-    auth.login(authResult.idToken);
-    this.navigateBackToApp();
+    auth.saveToken(authResult.idToken);
+    this.props.router.push('/');
   },
 
   showLogin: function(){
-    var lock = this.getLock();
-    lock.on('authenticated', this.onAuthentication);
-    lock.show();
+    this.lock.on('authenticated', this.onAuthentication);
+    this.lock.show();
   },
 
   render: function() {
@@ -128,7 +154,17 @@ module.exports = Router.withRouter(React.createClass({
     );
   }
 
-}));
+});
+```
+{% endtab %}
+{% tab id=2 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+// PASTE_HERE
 ```
 {% endtab %}
 {% endtabs %}

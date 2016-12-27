@@ -39,6 +39,8 @@ behavior is turned off. Let's turn it on.
 
 Open up `src/decorators/UserIsAuthenticated.js` and take a look at the `isAuthenticated` method:
 
+{% tabs tab1={"name": "ES5", "id": 101} | tab2={"name": "ES6", "id": 102} | tab3={"name": "ESNext", "id": 103} %}
+{% tab id=101, is_active=true %}
 ```jsx
 module.exports = AuthenticationGenerator({
   wrapperDisplayName: 'UserIsAuthenticated',
@@ -50,6 +52,18 @@ module.exports = AuthenticationGenerator({
   }
 });
 ```
+{% endtab %}
+{% tab id=102 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=103 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
 
 This function gets called when the route is rendered, and is responsible for determining whether or not the user is
 logged in. Since this function currently returns `true`, the application never redirects the user to `/login`.
@@ -57,6 +71,8 @@ logged in. Since this function currently returns `true`, the application never r
 To get the behavior we want, import `src/utils/auth.js` into this decorator and update the `isAuthenticated` method
 to look like this:
 
+{% tabs tab1={"name": "ES5", "id": 104} | tab2={"name": "ES6", "id": 105} | tab3={"name": "ESNext", "id": 106} %}
+{% tab id=104, is_active=true %}
 ```jsx
 var auth = require('../utils/auth');
 ...
@@ -65,9 +81,61 @@ var auth = require('../utils/auth');
   }
 ...
 ```
+{% endtab %}
+{% tab id=105 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=106 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
 
 With that change in place, if you now try to navigate to root route (such as `https://localhost:3000`) the application
 will automatically redirect you to `/login`.
+
+
+## Code Changes
+
+Below is a list of files modified during this step.
+
+### src/decorators/UserIsAuthenticated.js
+
+{% tabs tab1={"name": "ES5", "id": 1} | tab3={"name": "ES6", "id": 2} | tab4={"name": "ESNext", "id": 3} %}
+{% tab id=1, is_active=true %}
+```jsx
+var React = require('react');
+var AuthenticationGenerator = require('lore-auth').AuthenticationGenerator;
+var auth = require('../utils/auth');
+
+module.exports = AuthenticationGenerator({
+  wrapperDisplayName: 'UserIsAuthenticated',
+
+  // redirectUrl: '/login',
+
+  // redirectQueryParamName: 'redirect',
+
+  isAuthenticated: function () {
+    return auth.hasToken();
+  }
+});
+```
+{% endtab %}
+{% tab id=2 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% tab id=3 %}
+```jsx
+// PASTE_HERE
+```
+{% endtab %}
+{% endtabs %}
+
 
 ## Next Steps
 
