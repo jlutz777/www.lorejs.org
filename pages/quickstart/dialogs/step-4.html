@@ -166,8 +166,8 @@ function createTweet(params) {
 }
 ```
 
-But because we're currently using a mock API through `json-server` some fields that would normally be created the API
-won't exist on the data, and this can break our application code. So for now, we're simply going to create those
+But because we're currently using a mock API through `json-server` some fields that would normally be created by the
+API won't exist on the data, and this can break our application code. So for now, we're simply going to create those
 server-generated properties on the client-side when we create the data.
 
 Later in the quickstart, we'll switch to a real API and will be able to delete this modification.
@@ -205,7 +205,15 @@ module.exports = {
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+export default {
+  attributes: {
+    text: {
+      type: 'text',
+      displayName: 'Message',
+      placeholder: "What's happening?"
+    }
+  }
+}
 ```
 {% endtab %}
 {% tab id=3 %}
@@ -272,7 +280,56 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=5 %}
 ```jsx
-// PASTE_HERE
+import React, { Component } from 'react';
+import _ from 'lodash';
+
+class CreateButton extends Component {
+
+  getStyles() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  }
+
+  onClick() {
+    function createTweet(params) {
+      lore.actions.tweet.create(_.extend(params, {
+        userId: 1,
+        createdAt: new Date().toISOString()
+      }))
+    }
+
+    lore.dialog.show(function() {
+      return lore.dialogs.tweet.create({
+        onSubmit: createTweet
+      });
+    })
+  }
+
+  render () {
+    const styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+
+}
+
+export default CreateButton;
 ```
 {% endtab %}
 {% tab id=6 %}

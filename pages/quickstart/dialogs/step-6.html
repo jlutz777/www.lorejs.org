@@ -74,6 +74,11 @@ import React from 'react';
 
 class DeleteLink extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.onDestroy = this.onDestroy.bind(this);
+  }
+
   getStyles() {
     return {
       link: {
@@ -112,7 +117,7 @@ class DeleteLink extends React.Component {
 
 DeleteLink.propTypes = {
   tweet: React.PropTypes.object.isRequired
-}
+};
 
 export default DeleteLink;
 ```
@@ -354,7 +359,56 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+import React from 'react';
+
+class DeleteLink extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.onDestroy = this.onDestroy.bind(this);
+  }
+
+  getStyles() {
+    return {
+      link: {
+        cursor: 'pointer',
+        marginRight: '16px'
+      }
+    }
+  }
+
+  onDestroy() {
+    var tweet = this.props.tweet;
+
+    function destroyTweet() {
+      lore.actions.tweet.destroy(tweet);
+    }
+
+    lore.dialog.show(function() {
+      return lore.dialogs.tweet.destroy({
+        model: tweet,
+        onSubmit: destroyTweet
+      });
+    });
+  }
+
+  render() {
+    var styles = this.getStyles();
+
+    return (
+      <a style={styles.link} onClick={this.onDestroy}>
+        delete
+      </a>
+    );
+  }
+
+}
+
+DeleteLink.propTypes = {
+  tweet: React.PropTypes.object.isRequired
+};
+
+export default DeleteLink;
 ```
 {% endtab %}
 {% tab id=3 %}
@@ -475,7 +529,104 @@ React.createClass({
 {% endtab %}
 {% tab id=5 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
+import EditLink from './EditLink';
+import DeleteLink from './DeleteLink';
+
+class Tweet extends Component {
+
+  getStyles() {
+    return {
+      avatar: {
+        width: '32px',
+        border: '1px solid gray'
+      },
+      imageContainer: {
+        display: 'inline-block',
+        verticalAlign: 'top',
+        width: '32px'
+      },
+      contentContainer: {
+        display: 'inline-block',
+        marginLeft: '8px',
+        maxWidth: '85%'
+      },
+      title: {
+        lineHeight: '32px',
+        display: 'inline-block'
+      },
+      text: {
+        marginBottom: '5px'
+      },
+      timestamp: {
+        display: 'inline-block',
+        marginLeft: '8px',
+        color: '#999',
+        fontSize: '14px'
+      }
+    }
+  }
+
+  render() {
+    const styles = this.getStyles();
+    const tweet = this.props.tweet;
+    const user = this.props.user;
+    const timestamp = moment(tweet.data.createdAt).fromNow().split(' ago')[0];
+
+    return (
+      <li className="list-group-item">
+        <div style={styles.imageContainer}>
+          <img
+            className="img-circle"
+            src={user.data.avatar}
+            style={styles.avatar}/>
+        </div>
+        <div style={styles.contentContainer}>
+          <h4 className="list-group-item-heading" style={styles.title}>
+            {user.data.nickname}
+          </h4>
+          <h4 className="list-group-item-heading" style={styles.timestamp}>
+            {'- ' + timestamp}
+          </h4>
+          <p className="list-group-item-text" style={styles.text}>
+            {tweet.data.text}
+          </p>
+          <div>
+            <EditLink tweet={tweet} />
+            <DeleteLink tweet={tweet} />
+          </div>
+        </div>
+      </li>
+    );
+  }
+}
+
+Tweet.propTypes = {
+  tweet: PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired
+};
+
+Tweet.defaultProps = {
+  user: {
+    id: 1,
+    data: {
+      id: 1,
+      nickname: "lucca",
+      avatar: "https://cloud.githubusercontent.com/assets/2637399/19027072/a36f0c7a-88e1-11e6-931e-7f67fe01367b.png"
+    }
+  }
+};
+
+export default lore.connect(function(getState, props){
+  var tweet = props.tweet;
+
+  return {
+    user: getState('user.byId', {
+      id: tweet.data.userId
+    })
+  };
+})(Tweet);
 ```
 {% endtab %}
 {% tab id=6 %}

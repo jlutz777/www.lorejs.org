@@ -63,9 +63,9 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=102 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class CreateButton extends React.Component {
+class CreateButton extends Component {
 
   getStyles() {
     return {
@@ -99,13 +99,15 @@ export default class CreateButton extends React.Component {
   }
 
 }
+
+export default CreateButton;
 ```
 {% endtab %}
 {% tab id=103 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class CreateButton extends React.Component {
+class CreateButton extends Component {
 
   getStyles() {
     return {
@@ -139,6 +141,8 @@ export default class CreateButton extends React.Component {
   }
 
 }
+
+export default CreateButton;
 ```
 {% endtab %}
 {% endtabs %}
@@ -187,11 +191,11 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=105 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import CreateButton from './CreateButton';
 
-export default class Header extends React.Component {
+class Header extends Component {
 
   getStyles() {
     return {
@@ -219,15 +223,17 @@ export default class Header extends React.Component {
   }
 
 }
+
+export default Header;
 ```
 {% endtab %}
 {% tab id=106 %}
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import CreateButton from './CreateButton';
 
-export default class Header extends React.Component {
+class Header extends Component {
 
   getStyles() {
     return {
@@ -255,6 +261,8 @@ export default class Header extends React.Component {
   }
 
 }
+
+export default Header;
 ```
 {% endtab %}
 {% endtabs %}
@@ -314,7 +322,44 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+import React, { Component } from 'react';
+
+class CreateButton extends Component {
+
+  getStyles() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  }
+
+  onClick() {
+    console.log('Create tweet!');
+  }
+
+  render () {
+    const styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+
+}
+
+export default CreateButton;
 ```
 {% endtab %}
 {% tab id=3 %}
@@ -366,7 +411,39 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=5 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import CreateButton from './CreateButton';
+
+class Header extends Component {
+
+  getStyles() {
+    return {
+      container: {
+        position: 'relative',
+      }
+    }
+  }
+
+  render() {
+    var styles = this.getStyles();
+    return (
+      <nav className="navbar navbar-default navbar-static-top">
+        <div className="container" style={styles.container}>
+          <div className="navbar-header">
+            <Link className="navbar-brand" to="/">
+              Lore Quickstart
+            </Link>
+          </div>
+          <CreateButton/>
+        </div>
+      </nav>
+    );
+  }
+
+}
+
+export default Header;
 ```
 {% endtab %}
 {% tab id=6 %}
