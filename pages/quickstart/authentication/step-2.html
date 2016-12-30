@@ -54,7 +54,11 @@ export default {
 {% endtab %}
 {% tab id=103 %}
 ```js
-// PASTE_HERE
+// config/auth0.js
+export default {
+  clientId: 'jiY0oBzEEpJuEX738eNl050YAJbPZjbh',
+  domain: 'lorejs.auth0.com'
+}
 ```
 {% endtab %}
 {% endtabs %}
@@ -127,12 +131,120 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=105 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import Auth0Lock from 'auth0-lock';
+
+class Login extends Component {
+
+  constructor(props) {
+    super(props);
+
+    // Bind your custom methods so you can access the expected 'this'
+    this.getLock = this.getLock.bind(this);
+    this.onAuthentication = this.onAuthentication.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+  }
+
+  componentDidMount() {
+    this.lock = this.getLock();
+    this.showLogin();
+  }
+
+  getLock(){
+    var clientId = lore.config.auth0.clientId;
+    var domain = lore.config.auth0.domain;
+
+    return new Auth0Lock(clientId, domain, {
+      auth: {
+        redirect: false,
+        sso: false,
+        params: {scope: 'openid name email'}
+      },
+      languageDictionary: {
+        title: "Lore Quickstart"
+      }
+    });
+  }
+
+  onAuthentication(authResult) {
+    // save user token to localStorage
+  }
+
+  showLogin(){
+    this.lock.on('authenticated', this.onAuthentication);
+    this.lock.show();
+  }
+
+  render() {
+    return (
+      <div/>
+    );
+  }
+
+}
+
+Login.propTypes = {};
+
+export default Login;
 ```
 {% endtab %}
 {% tab id=106 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import Auth0Lock from 'auth0-lock';
+
+class Login extends Component {
+
+  constructor(props) {
+    super(props);
+
+    // Bind your custom methods so you can access the expected 'this'
+    this.getLock = this.getLock.bind(this);
+    this.onAuthentication = this.onAuthentication.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+  }
+
+  componentDidMount() {
+    this.lock = this.getLock();
+    this.showLogin();
+  }
+
+  getLock(){
+    var clientId = lore.config.auth0.clientId;
+    var domain = lore.config.auth0.domain;
+
+    return new Auth0Lock(clientId, domain, {
+      auth: {
+        redirect: false,
+        sso: false,
+        params: {scope: 'openid name email'}
+      },
+      languageDictionary: {
+        title: "Lore Quickstart"
+      }
+    });
+  }
+
+  onAuthentication(authResult) {
+    // save user token to localStorage
+  }
+
+  showLogin(){
+    this.lock.on('authenticated', this.onAuthentication);
+    this.lock.show();
+  }
+
+  render() {
+    return (
+      <div/>
+    );
+  }
+
+}
+
+Login.propTypes = {};
+
+export default Login;
 ```
 {% endtab %}
 {% endtabs %}
@@ -163,12 +275,38 @@ module.exports = (
 {% endtab %}
 {% tab id=108 %}
 ```jsx
-// PASTE_HERE
+...
+import Login from './src/components/Login';
+
+export default (
+  <Route>
+    <Route path="/login" component={Login} />
+
+    <Route component={UserIsAuthenticated(Master)}>
+      <Route path="/" component={Layout}>
+        <IndexRoute component={Feed} />
+      </Route>
+    </Route>
+  </Route>
+)
 ```
 {% endtab %}
 {% tab id=109 %}
 ```jsx
-// PASTE_HERE
+...
+import Login from './src/components/Login';
+
+export default (
+  <Route>
+    <Route path="/login" component={Login} />
+
+    <Route component={UserIsAuthenticated(Master)}>
+      <Route path="/" component={Layout}>
+        <IndexRoute component={Feed} />
+      </Route>
+    </Route>
+  </Route>
+)
 ```
 {% endtab %}
 {% endtabs %}
@@ -213,12 +351,18 @@ module.exports = {
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+export default {
+  clientId: 'jiY0oBzEEpJuEX738eNl050YAJbPZjbh',
+  domain: 'lorejs.auth0.com'
+}
 ```
 {% endtab %}
 {% tab id=3 %}
 ```jsx
-// PASTE_HERE
+export default {
+  clientId: 'jiY0oBzEEpJuEX738eNl050YAJbPZjbh',
+  domain: 'lorejs.auth0.com'
+}
 ```
 {% endtab %}
 {% endtabs %}
@@ -275,7 +419,61 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=5 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import Auth0Lock from 'auth0-lock';
+
+class Login extends Component {
+
+  constructor(props) {
+    super(props);
+
+    // Bind your custom methods so you can access the expected 'this'
+    this.getLock = this.getLock.bind(this);
+    this.onAuthentication = this.onAuthentication.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+  }
+
+  componentDidMount() {
+    this.lock = this.getLock();
+    this.showLogin();
+  }
+
+  getLock(){
+    var clientId = lore.config.auth0.clientId;
+    var domain = lore.config.auth0.domain;
+
+    return new Auth0Lock(clientId, domain, {
+      auth: {
+        redirect: false,
+        sso: false,
+        params: {scope: 'openid name email'}
+      },
+      languageDictionary: {
+        title: "Lore Quickstart"
+      }
+    });
+  }
+
+  onAuthentication(authResult) {
+    // save user token to localStorage
+  }
+
+  showLogin(){
+    this.lock.on('authenticated', this.onAuthentication);
+    this.lock.show();
+  }
+
+  render() {
+    return (
+      <div/>
+    );
+  }
+
+}
+
+Login.propTypes = {};
+
+export default Login;
 ```
 {% endtab %}
 {% tab id=6 %}
@@ -318,12 +516,55 @@ module.exports = (
 {% endtab %}
 {% tab id=8 %}
 ```jsx
-// PASTE_HERE
+import React from 'react';
+import { Route, IndexRoute, Redirect } from 'react-router';
+
+/**
+ * Routes
+ */
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+import Feed from './src/components/Feed';
+import Login from './src/components/Login';
+
+export default (
+  <Route>
+    <Route path="/login" component={Login} />
+
+    <Route component={Master}>
+      <Route path="/" component={Layout}>
+        <IndexRoute component={Feed} />
+      </Route>
+    </Route>
+  </Route>
+);
 ```
 {% endtab %}
 {% tab id=9 %}
 ```jsx
-// PASTE_HERE
+import React from 'react';
+import { Route, IndexRoute, Redirect } from 'react-router';
+import UserIsAuthenticated from './src/decorators/UserIsAuthenticated';
+
+/**
+ * Routes
+ */
+import Master from './src/components/Master';
+import Layout from './src/components/Layout';
+import Feed from './src/components/Feed';
+import Login from './src/components/Login';
+
+export default (
+  <Route>
+    <Route path="/login" component={Login} />
+
+    <Route component={UserIsAuthenticated(Master)}>
+      <Route path="/" component={Layout}>
+        <IndexRoute component={Feed} />
+      </Route>
+    </Route>
+  </Route>
+);
 ```
 {% endtab %}
 {% endtabs %}

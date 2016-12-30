@@ -57,12 +57,16 @@ module.exports = {
 {% endtab %}
 {% tab id=102 %}
 ```js
-// PASTE_HERE
+export default {
+  endpoint: 'user'
+}
 ```
 {% endtab %}
 {% tab id=103 %}
 ```js
-// PASTE_HERE
+export default {
+  endpoint: 'user'
+}
 ```
 {% endtab %}
 {% endtabs %}
@@ -109,12 +113,79 @@ module.exports = lore.connect(function(getState, props) {
 {% endtab %}
 {% tab id=105 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import PayloadStates from '../constants/PayloadStates';
+
+class Master extends Component {
+
+  render() {
+    const user = this.props.user;
+
+    if (user.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        {React.cloneElement(this.props.children)}
+      </div>
+    );
+  }
+
+}
+
+Master.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+export default lore.connect(function(getState, props) {
+  return {
+    user: getState('currentUser', {})
+  };
+}, { subscribe: true })(Master);
 ```
 {% endtab %}
 {% tab id=106 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import PayloadStates from '../constants/PayloadStates';
+
+@lore.connect(function(getState, props) {
+  return {
+    user: getState('currentUser', {})
+  };
+}, { subscribe: true })
+class Master extends Component {
+
+  static propTypes = {
+    user: PropTypes.object.isRequired
+  };
+
+  render() {
+    const user = this.props.user;
+
+    if (user.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        {React.cloneElement(this.props.children)}
+      </div>
+    );
+  }
+
+}
+
+export default Master;
 ```
 {% endtab %}
 {% endtabs %}
@@ -149,17 +220,60 @@ React.createClass({
   render: function() {
     ...
   }
-...
+
+})
 ```
 {% endtab %}
 {% tab id=108 %}
 ```jsx
-// PASTE_HERE
+...
+
+class Master extends Component {
+
+  getChildContext() {
+    return {
+      user: this.props.user
+    };
+  }
+
+  ...
+
+}
+
+Master.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+Master.childContextTypes = {
+  user: PropTypes.object
+};
+
+...
 ```
 {% endtab %}
 {% tab id=109 %}
 ```jsx
-// PASTE_HERE
+...
+class Master extends Component {
+
+  static propTypes = {
+    user: PropTypes.object.isRequired
+  };
+
+  static childContextTypes = {
+    user: PropTypes.object
+  };
+
+  getChildContext() {
+    return {
+      user: this.props.user
+    };
+  }
+
+  ...
+
+}
+...
 ```
 {% endtab %}
 {% endtabs %}
@@ -193,12 +307,40 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=111 %}
 ```jsx
-// PASTE_HERE
+...
+class Profile extends Component {
+  ...
+  render: function() {
+    var user = this.context.user;
+    ...
+  }
+}
+
+Profile.contextTypes = {
+  user: PropTypes.object.isRequired
+};
+
+export default Profile;
 ```
 {% endtab %}
 {% tab id=112 %}
 ```jsx
-// PASTE_HERE
+...
+class Profile extends Component {
+
+  static contextTypes = {
+    user: PropTypes.object.isRequired
+  };
+
+  ...
+
+  render: function() {
+    var user = this.context.user;
+    ...
+  }
+}
+
+export default Profile;
 ```
 {% endtab %}
 {% endtabs %}
@@ -318,12 +460,16 @@ module.exports = {
 {% endtab %}
 {% tab id=2 %}
 ```js
-// PASTE_HERE
+export default {
+  endpoint: 'user'
+}
 ```
 {% endtab %}
 {% tab id=3 %}
 ```js
-// PASTE_HERE
+export default {
+  endpoint: 'user'
+}
 ```
 {% endtab %}
 {% endtabs %}
@@ -381,7 +527,50 @@ module.exports = lore.connect(function(getState, props) {
 {% endtab %}
 {% tab id=5 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import PayloadStates from '../constants/PayloadStates';
+
+class Master extends Component {
+
+  getChildContext() {
+    return {
+      user: this.props.user
+    };
+  }
+
+  render() {
+    const user = this.props.user;
+
+    if (user.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        {React.cloneElement(this.props.children)}
+      </div>
+    );
+  }
+
+}
+
+Master.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+Master.childContextTypes = {
+  user: PropTypes.object
+};
+
+export default lore.connect(function(getState, props) {
+  return {
+    user: getState('currentUser', {})
+  };
+}, { subscribe: true })(Master);
 ```
 {% endtab %}
 {% tab id=6 %}
@@ -469,7 +658,74 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=8 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+
+class Profile extends Component {
+
+  getStyles() {
+    return {
+      card: {
+        position: 'relative',
+        display: 'block',
+        marginBottom: '.75rem',
+        backgroundColor: '#fff',
+        borderRadius: '.25rem',
+        border: '1px solid rgba(0,0,0,.125)',
+        marginTop: '20px'
+      },
+      cardBlock: {
+        padding: '1.25rem'
+      },
+      avatar: {
+        width: '48px',
+        position: 'absolute',
+        top: '-24px',
+        left: 'calc(50% - 24px)',
+        border: '1px solid gray'
+      },
+      permissions: {
+        marginLeft: '-12px'
+      }
+    }
+  }
+
+  render() {
+    const user = this.context.user;
+    const styles = this.getStyles();
+
+    return (
+      <div className="card" style={styles.card}>
+        <div className="card-block" style={styles.cardBlock}>
+          <img
+            className="img-circle"
+            src={user.data.avatar}
+            style={styles.avatar} />
+          <h4 className="card-title">
+            Hi {user.data.nickname}!
+          </h4>
+          <div className="card-text">
+            <p>You have permission to perform the following:</p>
+            <ul style={styles.permissions}>
+              <li>Create Tweets</li>
+              <li>Edit your own tweets</li>
+              <li>Delete your own tweets</li>
+            </ul>
+          </div>
+          <Link className="btn btn-primary" to="/logout">
+            Logout
+          </Link>
+        </div>
+      </div>
+    );
+  }
+}
+
+Profile.contextTypes = {
+  user: PropTypes.object.isRequired
+};
+
+export default Profile;
 ```
 {% endtab %}
 {% tab id=9 %}

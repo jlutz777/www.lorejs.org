@@ -26,12 +26,22 @@ var auth = require('../utils/auth');
 {% endtab %}
 {% tab id=102 %}
 ```jsx
-// PASTE_HERE
+import auth from '../utils/auth';
+...
+  onAuthentication(authResult) {
+    auth.saveToken(authResult.idToken);
+  }
+...
 ```
 {% endtab %}
 {% tab id=103 %}
 ```jsx
-// PASTE_HERE
+import auth from '../utils/auth';
+...
+  onAuthentication(authResult) {
+    auth.saveToken(authResult.idToken);
+  }
+...
 ```
 {% endtab %}
 {% endtabs %}
@@ -54,12 +64,18 @@ prop by React Router):
 {% endtab %}
 {% tab id=105 %}
 ```jsx
-// PASTE_HERE
+  onAuthentication(authResult) {
+    auth.saveToken(authResult.idToken);
+    this.props.router.push('/');
+  }
 ```
 {% endtab %}
 {% tab id=106 %}
 ```jsx
-// PASTE_HERE
+  onAuthentication(authResult) {
+    auth.saveToken(authResult.idToken);
+    this.props.router.push('/');
+  }
 ```
 {% endtab %}
 {% endtabs %}
@@ -76,12 +92,16 @@ Finally, add a `componentWillUnmount` method to hide the lock when the `Login` c
 {% endtab %}
 {% tab id=108 %}
 ```jsx
-// PASTE_HERE
+  componentWillUnmount() {
+    this.lock.hide();
+  }
 ```
 {% endtab %}
 {% tab id=109 %}
 ```jsx
-// PASTE_HERE
+  componentWillUnmount() {
+    this.lock.hide();
+  }
 ```
 {% endtab %}
 {% endtabs %}
@@ -159,12 +179,136 @@ module.exports = React.createClass({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import Auth0Lock from 'auth0-lock';
+import auth from '../utils/auth';
+
+class Login extends Component {
+
+  constructor(props) {
+    super(props);
+
+    // Bind your custom methods so you can access the expected 'this'
+    this.getLock = this.getLock.bind(this);
+    this.onAuthentication = this.onAuthentication.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+  }
+
+  componentDidMount() {
+    this.lock = this.getLock();
+    this.showLogin();
+  }
+
+  componentWillUnmount() {
+    this.lock.hide();
+  }
+
+  getLock(){
+    var clientId = lore.config.auth0.clientId;
+    var domain = lore.config.auth0.domain;
+
+    return new Auth0Lock(clientId, domain, {
+      auth: {
+        redirect: false,
+        sso: false,
+        params: {scope: 'openid name email'}
+      },
+      languageDictionary: {
+        title: "Lore Quickstart"
+      }
+    });
+  }
+
+  onAuthentication(authResult) {
+    auth.saveToken(authResult.idToken);
+    this.props.router.push('/');
+  }
+
+  showLogin(){
+    this.lock.on('authenticated', this.onAuthentication);
+    this.lock.show();
+  }
+
+  render() {
+    return (
+      <div/>
+    );
+  }
+
+}
+
+Login.propTypes = {
+  router: PropTypes.object.isRequired
+};
+
+export default Login;
 ```
 {% endtab %}
 {% tab id=3 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import Auth0Lock from 'auth0-lock';
+import auth from '../utils/auth';
+
+class Login extends Component {
+
+  static propTypes = {
+    router: PropTypes.object.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+
+    // Bind your custom methods so you can access the expected 'this'
+    this.getLock = this.getLock.bind(this);
+    this.onAuthentication = this.onAuthentication.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+  }
+
+  componentDidMount() {
+    this.lock = this.getLock();
+    this.showLogin();
+  }
+
+  componentWillUnmount() {
+    this.lock.hide();
+  }
+
+  getLock(){
+    var clientId = lore.config.auth0.clientId;
+    var domain = lore.config.auth0.domain;
+
+    return new Auth0Lock(clientId, domain, {
+      auth: {
+        redirect: false,
+        sso: false,
+        params: {scope: 'openid name email'}
+      },
+      languageDictionary: {
+        title: "Lore Quickstart"
+      }
+    });
+  }
+
+  onAuthentication(authResult) {
+    auth.saveToken(authResult.idToken);
+    this.props.router.push('/');
+  }
+
+  showLogin(){
+    this.lock.on('authenticated', this.onAuthentication);
+    this.lock.show();
+  }
+
+  render() {
+    return (
+      <div/>
+    );
+  }
+
+}
+
+export default Login;
 ```
 {% endtab %}
 {% endtabs %}

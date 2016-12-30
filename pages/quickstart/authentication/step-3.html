@@ -55,12 +55,38 @@ module.exports = AuthenticationGenerator({
 {% endtab %}
 {% tab id=102 %}
 ```jsx
-// PASTE_HERE
+import React from 'react';
+import { AuthenticationGenerator } from 'lore-auth';
+
+export default AuthenticationGenerator({
+  wrapperDisplayName: 'UserIsAuthenticated',
+
+  // redirectUrl: '/login',
+
+  // redirectQueryParamName: 'redirect',
+
+  isAuthenticated () {
+    return true;
+  }
+})
 ```
 {% endtab %}
 {% tab id=103 %}
 ```jsx
-// PASTE_HERE
+import React from 'react';
+import { AuthenticationGenerator } from 'lore-auth';
+
+export default AuthenticationGenerator({
+  wrapperDisplayName: 'UserIsAuthenticated',
+
+  // redirectUrl: '/login',
+
+  // redirectQueryParamName: 'redirect',
+
+  isAuthenticated () {
+    return true;
+  }
+})
 ```
 {% endtab %}
 {% endtabs %}
@@ -84,12 +110,22 @@ var auth = require('../utils/auth');
 {% endtab %}
 {% tab id=105 %}
 ```jsx
-// PASTE_HERE
+import auth from '../utils/auth';
+...
+  isAuthenticated () {
+    return auth.hasToken();
+  }
+...
 ```
 {% endtab %}
 {% tab id=106 %}
 ```jsx
-// PASTE_HERE
+import auth from '../utils/auth';
+...
+  isAuthenticated () {
+    return auth.hasToken();
+  }
+...
 ```
 {% endtab %}
 {% endtabs %}
@@ -126,12 +162,40 @@ module.exports = AuthenticationGenerator({
 {% endtab %}
 {% tab id=2 %}
 ```jsx
-// PASTE_HERE
+import React from 'react';
+import { AuthenticationGenerator } from 'lore-auth';
+import auth from '../utils/auth';
+
+export default AuthenticationGenerator({
+  wrapperDisplayName: 'UserIsAuthenticated',
+
+  // redirectUrl: '/login',
+
+  // redirectQueryParamName: 'redirect',
+
+  isAuthenticated () {
+    return auth.hasToken();
+  }
+})
 ```
 {% endtab %}
 {% tab id=3 %}
 ```jsx
-// PASTE_HERE
+import React from 'react';
+import { AuthenticationGenerator } from 'lore-auth';
+import auth from '../utils/auth';
+
+export default AuthenticationGenerator({
+  wrapperDisplayName: 'UserIsAuthenticated',
+
+  // redirectUrl: '/login',
+
+  // redirectQueryParamName: 'redirect',
+
+  isAuthenticated () {
+    return auth.hasToken();
+  }
+})
 ```
 {% endtab %}
 {% endtabs %}
