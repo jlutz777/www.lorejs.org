@@ -195,6 +195,8 @@ import Auth0Lock from 'auth0-lock';
 
 class Login extends Component {
 
+  static propTypes = {};
+
   constructor(props) {
     super(props);
 
@@ -241,8 +243,6 @@ class Login extends Component {
   }
 
 }
-
-Login.propTypes = {};
 
 export default Login;
 ```
@@ -332,7 +332,7 @@ as marle, you would enter `marle@example.com` for the email and `password` for t
 
 If everything went well, your application should now look like this.
 
-![New Lore App](/assets/images/quickstart/step2-visual.png)
+<img class="drop-shadow" src="/assets/images/quickstart/authentication/step-2.png">
 
 ## Code Changes
 
@@ -478,7 +478,59 @@ export default Login;
 {% endtab %}
 {% tab id=6 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import Auth0Lock from 'auth0-lock';
+
+class Login extends Component {
+
+  constructor(props) {
+    super(props);
+
+    // Bind your custom methods so you can access the expected 'this'
+    this.getLock = this.getLock.bind(this);
+    this.onAuthentication = this.onAuthentication.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+  }
+
+  componentDidMount() {
+    this.lock = this.getLock();
+    this.showLogin();
+  }
+
+  getLock(){
+    var clientId = lore.config.auth0.clientId;
+    var domain = lore.config.auth0.domain;
+
+    return new Auth0Lock(clientId, domain, {
+      auth: {
+        redirect: false,
+        sso: false,
+        params: {scope: 'openid name email'}
+      },
+      languageDictionary: {
+        title: "Lore Quickstart"
+      }
+    });
+  }
+
+  onAuthentication(authResult) {
+    // save user token to localStorage
+  }
+
+  showLogin(){
+    this.lock.on('authenticated', this.onAuthentication);
+    this.lock.show();
+  }
+
+  render() {
+    return (
+      <div/>
+    );
+  }
+
+}
+
+export default Login;
 ```
 {% endtab %}
 {% endtabs %}
@@ -518,6 +570,7 @@ module.exports = (
 ```jsx
 import React from 'react';
 import { Route, IndexRoute, Redirect } from 'react-router';
+import UserIsAuthenticated from './src/decorators/UserIsAuthenticated';
 
 /**
  * Routes
@@ -531,7 +584,7 @@ export default (
   <Route>
     <Route path="/login" component={Login} />
 
-    <Route component={Master}>
+    <Route component={UserIsAuthenticated(Master)}>
       <Route path="/" component={Layout}>
         <IndexRoute component={Feed} />
       </Route>
@@ -571,7 +624,7 @@ export default (
 
 ## Next Steps
 
-Next we're going to [DO SOMETHING](../step-3/).
+Next we're going to [redirect the user to login page](../step-3/) if they aren't logged in.
 
 {% endcapture %}
 {{ markdown | markdownify }}

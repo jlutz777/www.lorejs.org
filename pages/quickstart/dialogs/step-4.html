@@ -172,10 +172,72 @@ server-generated properties on the client-side when we create the data.
 
 Later in the quickstart, we'll switch to a real API and will be able to delete this modification.
 
-### Fixing the missing key with cid
+### Fix "unique key" warning using cid
 
-TODO: add a quick fix explaining why the cid needs to be added to the key in Feed because the data is being
-rendered optimistically.
+If you try to create a tweet, you'll notice this warning appear in the developer console:
+
+```
+Warning: Each child in an array or iterator should have a unique "key" prop. Check the render method of `Feed`.
+```
+
+This is the same error we saw earlier before we added a `key` to each tweet being rendered in the `Feed` component.
+The error is back because Lore's default behavior is to perform optimistic updates, which means the framework will
+render data as soon as it's created, without waiting for confirmation from the server. Since the server is responsible
+for assigning an `id` to resources, we see this error because there is a period of time when Lore tries to render the
+Tweet and it doesn't yet have an id.
+
+The `cid` property in the data structure exists for exactly this reason; to resolve challenges associated with
+optimistic updates. To remove this warning, simply update your `Feed` component to render the `cid` if the tweet
+doesn't have an id:
+
+{% tabs tab1={"name": "ES5", "id": 107} | tab2={"name": "ES6", "id": 108} | tab3={"name": "ESNext", "id": 109} %}
+{% tab id=107, is_active=true %}
+```jsx
+module.exports = React.createClass({
+  ...
+
+  renderTweet: function(tweet) {
+    return (
+      <Tweet key={tweet.id || tweet.cid} tweet={tweet} />
+    );
+  },
+
+  ...
+})
+```
+{% endtab %}
+{% tab id=108 %}
+```jsx
+class Feed extends Component {
+  ...
+
+  renderTweet(tweet) {
+    return (
+      <Tweet key={tweet.id || tweet.cid} tweet={tweet} />
+    );
+  }
+
+  ...
+}
+```
+{% endtab %}
+{% tab id=109 %}
+```jsx
+class Feed extends Component {
+  ...
+
+  renderTweet(tweet) {
+    return (
+      <Tweet key={tweet.id || tweet.cid} tweet={tweet} />
+    );
+  }
+
+  ...
+}
+```
+{% endtab %}
+{% endtabs %}
+
 
 ### Visual Check-in
 
@@ -218,7 +280,15 @@ export default {
 {% endtab %}
 {% tab id=3 %}
 ```jsx
-// PASTE_HERE
+export default {
+  attributes: {
+    text: {
+      type: 'text',
+      displayName: 'Message',
+      placeholder: "What's happening?"
+    }
+  }
+}
 ```
 {% endtab %}
 {% endtabs %}
@@ -334,7 +404,309 @@ export default CreateButton;
 {% endtab %}
 {% tab id=6 %}
 ```jsx
-// PASTE_HERE
+import React, { Component } from 'react';
+
+class CreateButton extends Component {
+
+  getStyles() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  }
+
+  onClick() {
+    function createTweet(params) {
+      lore.actions.tweet.create(_.extend(params, {
+        userId: 1,
+        createdAt: new Date().toISOString()
+      }))
+    }
+
+    lore.dialog.show(function() {
+      return lore.dialogs.tweet.create({
+        onSubmit: createTweet
+      });
+    })
+  }
+
+  render () {
+    const styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+
+}
+
+export default CreateButton;
+```
+{% endtab %}
+{% endtabs %}
+
+### src/components/Feed.js
+
+{% tabs tab1={"name": "ES5", "id": 7} | tab2={"name": "ES6", "id": 8} | tab3={"name": "ESNext", "id": 9} %}
+{% tab id=7, is_active=true %}
+```jsx
+var React = require('react');
+var Tweet = require('./Tweet');
+var PayloadStates = require('../constants/PayloadStates');
+
+module.exports = lore.connect(function(getState, props){
+  return {
+    tweets: getState('tweet.find')
+  }
+})(
+React.createClass({
+  displayName: 'Feed',
+
+  propTypes: {
+    tweets: React.PropTypes.object.isRequired
+  },
+
+  getDefaultProps: function() {
+    var tweet = {
+      id: 1,
+      cid: 'c1',
+      state: 'RESOLVED',
+      data: {
+        id: 1,
+        user: 1,
+        text: 'Nothing can beat science!',
+        createdAt: '2016-10-04T05:10:49.382Z'
+      }
+    };
+
+    return {
+      tweets: {
+        state: 'RESOLVED',
+        data: [tweet]
+      }
+    }
+  },
+
+  getStyles: function() {
+    return {
+      title: {
+        textAlign: 'center'
+      },
+      tweets: {
+        marginTop: '32px'
+      }
+    }
+  },
+
+  renderTweet: function(tweet) {
+    return (
+      <Tweet key={tweet.id || tweet.cid} tweet={tweet} />
+    );
+  },
+
+  render: function () {
+    var styles = this.getStyles();
+    var tweets = this.props.tweets;
+
+    if (tweets.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+
+})
+);
+```
+{% endtab %}
+{% tab id=8 %}
+```jsx
+import React, { Component, PropTypes } from 'react';
+import Tweet from './Tweet';
+import PayloadStates from '../constants/PayloadStates';
+
+class Feed extends Component {
+
+  getStyles() {
+    return {
+      title: {
+        textAlign: 'center'
+      },
+      tweets: {
+        marginTop: '32px'
+      }
+    }
+  }
+
+  renderTweet(tweet) {
+    return (
+      <Tweet key={tweet.id || tweet.cid} tweet={tweet} />
+    );
+  }
+
+  render() {
+    const styles = this.getStyles();
+    const tweets = this.props.tweets;
+
+    if (tweets.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+}
+
+Feed.propTypes = {
+  tweets: PropTypes.object.isRequired
+};
+
+Feed.defaultProps = (function() {
+  const tweet = {
+    id: 1,
+    cid: 'c1',
+    state: 'RESOLVED',
+    data: {
+      id: 1,
+      user: 1,
+      text: 'Nothing can beat science!',
+      createdAt: '2016-10-04T05:10:49.382Z'
+    }
+  };
+
+  return {
+    tweets: {
+      state: 'RESOLVED',
+      data: [tweet]
+    }
+  }
+})();
+
+export default lore.connect(function(getState, props){
+  return {
+    tweets: getState('tweet.find')
+  }
+})(Feed);
+```
+{% endtab %}
+{% tab id=9 %}
+```jsx
+import React, { Component, PropTypes } from 'react';
+import Tweet from './Tweet';
+import PayloadStates from '../constants/PayloadStates';
+
+@lore.connect(function(getState, props){
+  return {
+    tweets: getState('tweet.find')
+  }
+})
+class Feed extends Component {
+
+  static propTypes = {
+    tweets: PropTypes.object.isRequired
+  };
+
+  static defaultProps = (function() {
+    const tweet = {
+      id: 1,
+      cid: 'c1',
+      state: 'RESOLVED',
+      data: {
+        id: 1,
+        user: 1,
+        text: 'Nothing can beat science!',
+        createdAt: '2016-10-04T05:10:49.382Z'
+      }
+    };
+
+    return {
+      tweets: {
+        state: 'RESOLVED',
+        data: [tweet]
+      }
+    }
+  })();
+
+  getStyles() {
+    return {
+      title: {
+        textAlign: 'center'
+      },
+      tweets: {
+        marginTop: '32px'
+      }
+    }
+  }
+
+  renderTweet(tweet) {
+    return (
+      <Tweet key={tweet.id || tweet.cid} tweet={tweet} />
+    );
+  }
+
+  render() {
+    const styles = this.getStyles();
+    const tweets = this.props.tweets;
+
+    if (tweets.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        <h2 style={styles.title}>
+          Feed
+        </h2>
+        <ul className="media-list" style={styles.tweets}>
+          {tweets.data.map(this.renderTweet)}
+        </ul>
+      </div>
+    );
+  }
+}
+
+export default Feed;
 ```
 {% endtab %}
 {% endtabs %}

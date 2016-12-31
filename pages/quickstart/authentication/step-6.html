@@ -346,6 +346,13 @@ export default Profile;
 {% endtabs %}
 
 
+### Visual Check-in
+
+If everything went well, your application should now look like this.
+
+<img class="drop-shadow" src="/assets/images/quickstart/authentication/step-5.png">
+
+
 ## Code Changes
 
 Below is a list of files modified during this step.
@@ -575,7 +582,51 @@ export default lore.connect(function(getState, props) {
 {% endtab %}
 {% tab id=6 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import PayloadStates from '../constants/PayloadStates';
+
+@lore.connect(function(getState, props) {
+  return {
+    user: getState('currentUser', {})
+  };
+}, { subscribe: true })
+class Master extends Component {
+
+  static propTypes = {
+    user: PropTypes.object.isRequired
+  };
+
+  static childContextTypes = {
+    user: PropTypes.object
+  };
+
+  getChildContext() {
+    return {
+      user: this.props.user
+    };
+  }
+
+  render() {
+    const user = this.props.user;
+
+    if (user.state === PayloadStates.FETCHING) {
+      return (
+        <h1 className="loading-text">
+          Loading...
+        </h1>
+      )
+    }
+
+    return (
+      <div>
+        {React.cloneElement(this.props.children)}
+      </div>
+    );
+  }
+
+}
+
+export default Master;
 ```
 {% endtab %}
 {% endtabs %}
@@ -730,7 +781,74 @@ export default Profile;
 {% endtab %}
 {% tab id=9 %}
 ```jsx
-// PASTE_HERE
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+
+class Profile extends Component {
+
+  static contextTypes = {
+    user: PropTypes.object.isRequired
+  };
+
+  getStyles() {
+    return {
+      card: {
+        position: 'relative',
+        display: 'block',
+        marginBottom: '.75rem',
+        backgroundColor: '#fff',
+        borderRadius: '.25rem',
+        border: '1px solid rgba(0,0,0,.125)',
+        marginTop: '20px'
+      },
+      cardBlock: {
+        padding: '1.25rem'
+      },
+      avatar: {
+        width: '48px',
+        position: 'absolute',
+        top: '-24px',
+        left: 'calc(50% - 24px)',
+        border: '1px solid gray'
+      },
+      permissions: {
+        marginLeft: '-12px'
+      }
+    }
+  }
+
+  render() {
+    const user = this.context.user;
+    const styles = this.getStyles();
+
+    return (
+      <div className="card" style={styles.card}>
+        <div className="card-block" style={styles.cardBlock}>
+          <img
+            className="img-circle"
+            src={user.data.avatar}
+            style={styles.avatar} />
+          <h4 className="card-title">
+            Hi {user.data.nickname}!
+          </h4>
+          <div className="card-text">
+            <p>You have permission to perform the following:</p>
+            <ul style={styles.permissions}>
+              <li>Create Tweets</li>
+              <li>Edit your own tweets</li>
+              <li>Delete your own tweets</li>
+            </ul>
+          </div>
+          <Link className="btn btn-primary" to="/">
+            Logout
+          </Link>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Profile;
 ```
 {% endtab %}
 {% endtabs %}

@@ -35,9 +35,10 @@ module.exports = (
 ```jsx
 import Master from './src/components/Master';
 import Layout from './src/components/Layout';
+import UserIsAuthenticated from './src/decorators/UserIsAuthenticated';
 
 export default (
-  <Route component={Master}>
+  <Route component={UserIsAuthenticated(Master)}>
     <Route path="/" component={Layout} />
   </Route>
 )
@@ -47,9 +48,10 @@ export default (
 ```jsx
 import Master from './src/components/Master';
 import Layout from './src/components/Layout';
+import UserIsAuthenticated from './src/decorators/UserIsAuthenticated';
 
 export default (
-  <Route component={Master}>
+  <Route component={UserIsAuthenticated(Master)}>
     <Route path="/" component={Layout} />
   </Route>
 )

@@ -223,6 +223,14 @@ import { Link } from 'react-router';
 With this change in place, clicking the Logout button will redirect you to `/login`, and once you log in, you'll be
 redirected to the main application.
 
+
+### Visual Check-in
+
+If everything went well, your application should now look like this.
+
+<img class="drop-shadow" src="/assets/images/quickstart/authentication/step-1.png">
+
+
 ## Code Changes
 
 Below is a list of files modified during this step.
@@ -585,6 +593,20 @@ import { Link } from 'react-router';
 
 class Profile extends Component {
 
+  static propTypes = {
+    user: PropTypes.object.isRequired
+  };
+
+  static defaultProps = {
+    user: {
+      id: 1,
+      data: {
+        nickname: 'marle',
+        avatar: 'https://cloud.githubusercontent.com/assets/2637399/19027074/a37105c0-88e1-11e6-9645-3e1af37671f7.png'
+      }
+    }
+  };
+
   getStyles() {
     return {
       card: {
@@ -634,7 +656,7 @@ class Profile extends Component {
               <li>Delete your own tweets</li>
             </ul>
           </div>
-          <Link className="btn btn-primary" to="/logout">
+          <Link className="btn btn-primary" to="/">
             Logout
           </Link>
         </div>
@@ -642,20 +664,6 @@ class Profile extends Component {
     );
   }
 }
-
-Profile.propTypes = {
-  user: PropTypes.object.isRequired
-};
-
-Profile.defaultProps = {
-  user: {
-    id: 1,
-    data: {
-      nickname: 'marle',
-      avatar: 'https://cloud.githubusercontent.com/assets/2637399/19027074/a37105c0-88e1-11e6-9645-3e1af37671f7.png'
-    }
-  }
-};
 
 export default Profile;
 ```
@@ -665,7 +673,7 @@ export default Profile;
 
 ## Next Steps
 
-Next we're going to [DO SOMETHING](../step-6/).
+Next we're going to [save the user in the application's context](../step-6/).
 
 {% endcapture %}
 {{ markdown | markdownify }}

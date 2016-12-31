@@ -191,7 +191,48 @@ export default CreateButton;
 {% endtab %}
 {% tab id=3 %}
 ```jsx
-// PASTE_HERE
+import React, { Component } from 'react';
+
+class CreateButton extends Component {
+
+  getStyles() {
+    return {
+      createButton: {
+        position: 'absolute',
+        top: '25px',
+        right: '15px',
+        zIndex: 1000,
+        borderRadius: '100px',
+        outline: 'none'
+      }
+    }
+  }
+
+  onClick() {
+    lore.dialog.show(() => {
+      return (
+        <h1>Dialog Placeholder</h1>
+      );
+    })
+  }
+
+  render () {
+    const styles = this.getStyles();
+
+    return (
+      <button
+        type="button"
+        className="btn btn-primary btn-lg"
+        style={styles.createButton}
+        onClick={this.onClick}>
+        +
+      </button>
+    );
+  }
+
+}
+
+export default CreateButton;
 ```
 {% endtab %}
 {% endtabs %}
