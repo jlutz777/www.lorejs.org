@@ -401,10 +401,6 @@ module.exports = {
       properties: {
 
         parse: function(attributes) {
-          this.meta = {
-            page: attributes.meta.paginate.currentPage,
-            nextPage: attributes.meta.paginate.nextPage
-          };
           return attributes.data;
         }
 
@@ -438,10 +434,6 @@ export default {
       properties: {
 
         parse(attributes) {
-          this.meta = {
-            page: attributes.meta.paginate.currentPage,
-            nextPage: attributes.meta.paginate.nextPage
-          };
           return attributes.data;
         }
 
@@ -475,10 +467,6 @@ export default {
       properties: {
 
         parse(attributes) {
-          this.meta = {
-            page: attributes.meta.paginate.currentPage,
-            nextPage: attributes.meta.paginate.nextPage
-          };
           return attributes.data;
         }
 
